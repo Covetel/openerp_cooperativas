@@ -32,31 +32,59 @@ def connect():
     # Get the uid
     sock_common = xmlrpclib.ServerProxy ('http://localhost:8069/xmlrpc/common')
     uid = sock_common.login(dbname, username, pwd)
-    #print uid
 
     #replace localhost with the address of the server
     sock = xmlrpclib.ServerProxy('http://localhost:8069/xmlrpc/object')
-    #print sock
 
     return sock, uid
+
+def borrar_cuentas(sock, uid):
+    buscar = []
+    cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
+    print cod
+    for i in cod:
+        sock.execute(dbname, uid, pwd, 'account.account', 'unlink', cod)
+
+
+def get_parent_id(code):
+    fields = ['id']
+    buscar = [('code','=', code )]
+    cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
+    parent_id = sock.execute(dbname, uid, pwd, 'account.account', 'read', cod, fields)
+    try:
+        return parent_id[0]['id']
+    except IndexError:
+        return []
 
 def tipo_cuenta(cuenta):
     if re.match("^1", cuenta['code']) or re.match("^2", cuenta['code']) or re.match("^3", cuenta['code']):
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 19})
         cuenta.update({'reconcile' : True})
-    if re.match("^1.\d", cuenta['code']):
+    if re.match("(^1.\d)", cuenta['code']):
+        m = re.match("(^1)", cuenta['code'])
+        parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
+        cuenta.update({'parent_id' : parent_id})
     if re.match("^1.\d.\d", cuenta['code']):
+        m = re.match("(^1.\d)", cuenta['code'])
+        parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
+        cuenta.update({'parent_id' : parent_id})
     if re.match("^1.\d.\d.\d.*", cuenta['code']):
+        m = re.match("(^1.\d.\d)", cuenta['code'])
+        parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'other'})
         cuenta.update({'user_type' : 6})
-    if re.match("^2.", cuenta['code']):
+        cuenta.update({'parent_id' : parent_id})
+    if re.match("^2.\d", cuenta['code']):
+        m = re.match("(^2)", cuenta['code'])
+        parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': "other"})
         cuenta.update({'user_type' : 9})
+        cuenta.update({'parent_id' : parent_id})
     if re.match("^4", cuenta['code']):
         cuenta.update({'type': "other"})
         cuenta.update({'user_type' : '3'})
@@ -80,9 +108,9 @@ def tipo_cuenta(cuenta):
 
 def crear_cuenta(c, sock, uid, cuenta):
     if c == "crear":
-        print "A crear: "+str(cuenta)
+        print cuenta
         account_id = sock.execute(dbname, uid, pwd, 'account.account', 'create', cuenta)
-        print "Creado: "+str(account_id)
+        print account_id
 
 cuentas = []
 codes = []
@@ -91,8 +119,9 @@ ac = 101
 
 (sock, uid) = connect()
 
+account_id = 0;
+
 for line in source_table.readlines()[0:]:
-        #try:
         if True:
             
             l = line.split(",")
@@ -104,6 +133,7 @@ for line in source_table.readlines()[0:]:
                'code': code,
                'name': name,
             }
+
             tipo_cuenta(cuenta)
 
             match = cuenta in cuentas
@@ -141,5 +171,8 @@ if c == "cuentas":
     buscar = [('code','=', cc)]
     cod = sock.execute(dbname, uid, pwd, 'account.account.template', 'search', buscar)
     for i in cod:
-        account = sock.execute(dbname, uid, pwd, 'account.account.template', 'read', i, fields)
+        account = sock.execute(dbname, uid, pwd, 'account.account.template', 'read', i)
         print account
+
+if c == "borrar":
+    borrar_cuentas(sock, uid)
