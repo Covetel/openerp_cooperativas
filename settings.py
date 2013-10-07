@@ -1,0 +1,5 @@
+username = 'admin' 
+pwd = '123321...'      
+dbname = 'Cuentas' 
+host = '127.0.0.1' 
+port = '8069'
