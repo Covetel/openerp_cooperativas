@@ -57,24 +57,24 @@ def get_parent_id(code):
         return []
 
 def tipo_cuenta(cuenta):
-    if re.match("^1", cuenta['code']) or re.match("^2", cuenta['code']) or re.match("^3", cuenta['code']):
+    if re.match("^\d$", cuenta['code']):
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 19})
         cuenta.update({'reconcile' : True})
-    if re.match("(^1.\d)", cuenta['code']):
-        m = re.match("(^1)", cuenta['code'])
+    if re.match("(^[13456789].\d)", cuenta['code']):
+        m = re.match("(^[13456789])", cuenta['code'])
         parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
         cuenta.update({'parent_id' : parent_id})
-    if re.match("^1.\d.\d", cuenta['code']):
-        m = re.match("(^1.\d)", cuenta['code'])
+    if re.match("^[123456789].\d.\d", cuenta['code']):
+        m = re.match("(^[123456789].\d)", cuenta['code'])
         parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
         cuenta.update({'parent_id' : parent_id})
-    if re.match("^1.\d.\d.\d.*", cuenta['code']):
-        m = re.match("(^1.\d.\d)", cuenta['code'])
+    if re.match("^[123456789].\d.\d.\d.*", cuenta['code']):
+        m = re.match("(^[123456789].\d.\d)", cuenta['code'])
         parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'other'})
         cuenta.update({'user_type' : 6})
@@ -85,24 +85,6 @@ def tipo_cuenta(cuenta):
         cuenta.update({'type': "other"})
         cuenta.update({'user_type' : 9})
         cuenta.update({'parent_id' : parent_id})
-    if re.match("^4", cuenta['code']):
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : '3'})
-    if re.match("^5", cuenta['code']):
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : '3'})
-    if re.match("^6", cuenta['code']):
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : '3'})
-    if re.match("^7", cuenta['code']):
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : '3'})
-    if re.match("^8", cuenta['code']):
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : '3'})
-    if re.match("^9", cuenta['code']):
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : '3'})
 
     return cuenta
 
@@ -126,7 +108,7 @@ for line in source_table.readlines()[0:]:
             
             l = line.split(",")
 
-            code = l[1].replace("\n", "") 
+            code = re.sub("[\n\.]$", "", l[1])
             name = l[0].replace('"', '')
 
             cuenta = {
