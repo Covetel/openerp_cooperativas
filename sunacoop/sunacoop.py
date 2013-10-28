@@ -1,7 +1,25 @@
 from osv import osv, fields
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class sunacoop_cooperativas(osv.osv): 
     _name = "sunacoop.cooperativas"
+
+    def _get_cantidad_socios(self, cr, uid, ids, field, arg, context=None):
+        res = {}
+        for record in  self.browse(cr, uid, ids, context=context):
+            res[record.id] = len(record.asociados)
+        return res
+
+        
+    def name_get(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        res = []
+        for record in self.browse(cr, uid, ids, context=context):
+            res.append((record.id, record.razon_social))
+        return res
 
     _columns = { 
         'numero_expediente' : fields.integer("Numero de Expediente"),
@@ -17,19 +35,12 @@ class sunacoop_cooperativas(osv.osv):
         'parroquia' : fields.many2one("sunacoop.parroquias", "Parroquia"),
         'asociados' : fields.one2many("sunacoop.asociados", "cooperativa_id", 
                                      "Asociados"),
-        'cantidad_socios' : fields.integer("Cantidad de Socios"),
+        'cantidad_socios' : fields.function(_get_cantidad_socios, type='integer', string="Cantidad de Asociados"),
         }
-    
-    #def _get_cantidad_socios(self, cr, uid, ids, context=None):
-        
 
-    def name_get(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        res = []
-        for record in self.browse(cr, uid, ids, context=context):
-            res.append((record.id, record.razon_social))
-        return res
+    _defaults = {
+
+        }
 sunacoop_cooperativas()    
 
 class sunacoop_estados(osv.osv):

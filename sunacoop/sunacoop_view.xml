@@ -60,7 +60,7 @@
 
               <group>
                 <field name="numero_tomo"/>
-                <field name="cantidad_socios"/>
+                <field name="cantidad_socios" readonly="True" />
               </group>
             </group>
 
