@@ -1,0 +1,120 @@
+<?xml version="1.0" ?> 
+<openerp>
+  <data>
+    <!-- Boton Principal del Módulo -->
+    <menuitem id="menu_main_sunacoop" 
+              name="Sunacoop" /> 
+
+    <!-- Vistas de Registro --> 
+    <!-- Vista tree del Registro -->
+    <record model="ir.ui.view" id="view_sunacoop_registro_tree">
+      <field name="name">view.sunacoop.cooperativas.tree</field>
+      <field name="model">sunacoop.cooperativas</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+        <tree string="Registrados">
+          <field name="razon_social"/>
+          <field name="numero_expediente"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Vista form del Registro -->
+    <record model="ir.ui.view" id="view_sunacoop_registro_form">
+      <field name="name">view.sunacoop.cooperativas.form</field>
+      <field name="model">sunacoop.cooperativas</field>
+      <field name="priority" eval="2" /> 
+      <field name="type">form</field> 
+      <field name="arch" type="xml">
+        <form string="Sunacoop Cooperativas" version="7.0">
+          <header>
+            <button string="Certificado" type="object"
+                    class="oe_highlight"/> 
+          </header>
+          <sheet>
+            <label for="razon_social" class="oe_edit_only"/>
+            <h1><field name="razon_social"/></h1>
+
+            <group>
+              <group>
+                <field name="numero_expediente" placeholder="Numero
+                                                             expediente"/>
+                <field name="fecha_registro" />
+                <label for="direccion"/>
+                <div>
+                  <field name="direccion" placeholder="Calle..."/>
+                  <field name="direccion2"/>
+                </div>
+              </group>
+
+              <group>
+                <field name="estado"/>
+                <field name="municipio"/>
+                <field name="parroquia"/>
+              </group>
+
+              <group>
+                <field name="registro_inscrito"/>
+                <field name="numero_folio"/>
+              </group>
+
+              <group>
+                <field name="numero_tomo"/>
+                <field name="cantidad_socios"/>
+              </group>
+            </group>
+
+            <notebook colspan="4">
+              <page string="Asociados">
+                <field name="asociados" nolabel="1">
+                  <form string="Asociados">
+                    <field name="cedula"/>
+                    <field name="nombres" />
+                    <field name="apellidos" />
+                    <field name="estado" />
+                    <field name="municipio" />
+                    <field name="parroquia" />
+                  </form> 
+                  <tree string="Asociados" editable="bottom">
+                    <field name="cedula"/>
+                    <field name="nombres" />
+                    <field name="apellidos" />
+                    <field name="estado" />
+                    <field name="municipio" />
+                    <field name="parroquia" />
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <footer>
+          </footer>
+        </form> 
+      </field>
+    </record>
+
+    <!-- Acciones -->
+    <!-- Accion para generar el formulario de Registro -->
+    <record model="ir.actions.act_window" id="action_sunacoop_registro_form">
+      <field name="name">Registros</field>
+      <field name="res_model">sunacoop.cooperativas</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form,tree</field>
+      <field name="context">{}</field>
+      <field name="limit">200</field>
+      <field name="domain">[]</field>
+    </record>
+
+    <!-- Menus -->
+    <!-- Categoria Sunacoop -->
+    <menuitem name="Sunacoop"
+              id="menu_main_sunacoop_1" 
+              parent="menu_main_sunacoop" />
+
+    <!-- Link para el Registro de Cooperativas --> 
+    <menuitem name="Registro de Cooperativas"
+              id="menu_action_sunacoop_registro_form" 
+              parent="menu_main_sunacoop_1"
+              action="action_sunacoop_registro_form" />
+  </data>
+</openerp>
