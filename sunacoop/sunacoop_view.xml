@@ -37,8 +37,7 @@
 
             <group>
               <group>
-                <field name="numero_expediente" placeholder="Numero
-                                                             expediente"/>
+                <field name="rif" />
                 <field name="fecha_registro" />
                 <label for="direccion"/>
                 <div>
@@ -54,13 +53,15 @@
               </group>
 
               <group>
+                <field name="numero_expediente" placeholder="Numero
+                                                             expediente"/>
                 <field name="registro_inscrito"/>
-                <field name="numero_folio"/>
+                <field name="cantidad_socios" readonly="True" />
               </group>
 
               <group>
                 <field name="numero_tomo"/>
-                <field name="cantidad_socios" readonly="True" />
+                <field name="numero_folio"/>
               </group>
             </group>
 
