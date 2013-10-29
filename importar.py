@@ -59,7 +59,7 @@ def get_parent_id(code):
 def tipo_cuenta(cuenta):
     if re.match("^\d$", cuenta['code']):
         cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 19})
+        cuenta.update({'user_type' : 12})
         cuenta.update({'reconcile' : True})
     if re.match("(^[13456789].\d)", cuenta['code']):
         m = re.match("(^[13456789])", cuenta['code'])
