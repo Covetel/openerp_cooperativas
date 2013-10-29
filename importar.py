@@ -19,9 +19,9 @@ cc = "";
 
 try:
     c = sys.argv[1]
-    cc = sys.argv[2]
 except IndexError:
-    print "Corriendo sin parametro"
+    print "No indico un parametro"
+    sys.exit()
 
 username = settings.username
 pwd = settings.pwd
@@ -94,51 +94,53 @@ def crear_cuenta(c, sock, uid, cuenta):
         account_id = sock.execute(dbname, uid, pwd, 'account.account', 'create', cuenta)
         print account_id
 
-cuentas = []
-codes = []
 
-ac = 101
+if c == "crear":
+    cuentas = []
+    codes = []
 
-(sock, uid) = connect()
+    ac = 101
 
-account_id = 0;
+    (sock, uid) = connect()
 
-for line in source_table.readlines()[0:]:
-        if True:
-            
-            l = line.split(",")
+    account_id = 0;
 
-            code = re.sub("[\n\.]$", "", l[1])
-            name = l[0].replace('"', '')
+    for line in source_table.readlines()[0:]:
+            if True:
 
-            cuenta = {
-               'code': code,
-               'name': name,
-            }
+                l = line.split(",")
 
-            tipo_cuenta(cuenta)
+                code = re.sub("[\n\.]$", "", l[1])
+                name = l[0].replace('"', '')
 
-            match = cuenta in cuentas
+                cuenta = {
+                   'code': code,
+                   'name': name,
+                }
 
-            if not match:
-                match_code = code in codes
-                
-                if not match_code:
-                    crear_cuenta(c, sock, uid, cuenta)
+                tipo_cuenta(cuenta)
 
-                    cuentas.append(cuenta)
-                    codes.append(code)
-                    ac = 101
-                else:
-                    code = code+"."+str(ac)
-                    cuenta.update({'code':code})
+                match = cuenta in cuentas
+
+                if not match:
+                    match_code = code in codes
                     
-                    if not code in codes:
+                    if not match_code:
                         crear_cuenta(c, sock, uid, cuenta)
 
                         cuentas.append(cuenta)
                         codes.append(code)
-                        ac = ac + 1
+                        ac = 101
+                    else:
+                        code = code+"."+str(ac)
+                        cuenta.update({'code':code})
+
+                        if not code in codes:
+                            crear_cuenta(c, sock, uid, cuenta)
+
+                            cuentas.append(cuenta)
+                            codes.append(code)
+                            ac = ac + 1
 
 if c == "listar":
     fields = ['name', 'code']
@@ -149,6 +151,12 @@ if c == "listar":
         print types
 
 if c == "cuentas":
+    try:
+        cc = sys.argv[2]
+    except IndexError:
+        print "Indique el codigo de la cuenta"
+        sys.exit()
+
     fields = ['name', 'code', 'type', 'user_type']
     buscar = [('code','=', cc)]
     cod = sock.execute(dbname, uid, pwd, 'account.account.template', 'search', buscar)
