@@ -95,16 +95,16 @@ def crear_cuenta(c, sock, uid, cuenta):
         print account_id
 
 
+cuentas = []
+codes = []
+
+ac = 101
+
+(sock, uid) = connect()
+
+account_id = 0;
+
 if c == "crear":
-    cuentas = []
-    codes = []
-
-    ac = 101
-
-    (sock, uid) = connect()
-
-    account_id = 0;
-
     for line in source_table.readlines()[0:]:
             if True:
 
