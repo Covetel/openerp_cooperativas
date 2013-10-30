@@ -85,9 +85,18 @@ def tipo_cuenta(cuenta):
         cuenta.update({'type': "other"})
         cuenta.update({'user_type' : 9})
         cuenta.update({'parent_id' : parent_id})
+    #Clasificación de Cuentas
+    #Activos
     if re.match("(1.1.3.\d\d\d)", cuenta['code']):
         cuenta.update({'type': 'receivable'})
         cuenta.update({'user_type' : 2})
+    if re.match("(1.1.1.1\d\d)", cuenta['code']):
+        cuenta.update({'type': 'liquidity'})
+        cuenta.update({'user_type' : 5})
+    if re.match("(1.1.1.2\d\d)", cuenta['code']):
+        cuenta.update({'type': 'liquidity'})
+        cuenta.update({'user_type' : 4})
+    #Pasivos
     if re.match("(2.1.2.\d\d\d)", cuenta['code']):
         cuenta.update({'type': 'payable'})
         cuenta.update({'user_type' : 3})
