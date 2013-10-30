@@ -61,8 +61,8 @@ def tipo_cuenta(cuenta):
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
         cuenta.update({'reconcile' : True})
-    if re.match("(^[13456789].\d)", cuenta['code']):
-        m = re.match("(^[13456789])", cuenta['code'])
+    if re.match("(^[1345789].\d)", cuenta['code']):
+        m = re.match("(^[1345789])", cuenta['code'])
         parent_id = get_parent_id(m.group(1))
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
@@ -82,26 +82,43 @@ def tipo_cuenta(cuenta):
     if re.match("^2.\d", cuenta['code']):
         m = re.match("(^2)", cuenta['code'])
         parent_id = get_parent_id(m.group(1))
-        cuenta.update({'type': "other"})
-        cuenta.update({'user_type' : 9})
+        cuenta.update({'type': "view"})
+        cuenta.update({'user_type' : 13})
         cuenta.update({'parent_id' : parent_id})
-    #Clasificación de Cuentas
-    #Activos
-    if re.match("(1.1.3.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'receivable'})
-        cuenta.update({'user_type' : 2})
-    if re.match("(1.1.1.1\d\d)", cuenta['code']):
-        cuenta.update({'type': 'liquidity'})
-        cuenta.update({'user_type' : 5})
-    if re.match("(1.1.1.2\d\d)", cuenta['code']):
-        cuenta.update({'type': 'liquidity'})
-        cuenta.update({'user_type' : 4})
-    #Pasivos
-    if re.match("(2.1.2.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'payable'})
-        cuenta.update({'user_type' : 3})
+    if re.match("^6.\d", cuenta['code']):
+        m = re.match("(^6)", cuenta['code'])
+        parent_id = get_parent_id(m.group(1))
+        cuenta.update({'type': "view"})
+        cuenta.update({'user_type' : 11})
+        cuenta.update({'parent_id' : parent_id})
 
     return cuenta
+
+def actualizar_cuenta(sock, uid):
+    cod = buscar_cuentas("all")
+    fields = ['name', 'code', 'type', 'user_type']
+    for i in cod:
+        cuenta = sock.execute(dbname, uid, pwd, 'account.account', 'read', i, fields)
+        values = {}
+
+        #Clasificación de Cuentas
+        #Activos
+        if re.match("(1.1.3.\d\d\d)", cuenta['code']):
+            values = {'type': 'receivable', 'user_type' : 2}
+        if re.match("(1.1.1.1\d\d)", cuenta['code']):
+            values = {'type': 'liquidity', 'user_type' : 5}
+        if re.match("(1.1.1.2\d\d)", cuenta['code']):
+            values = {'type': 'liquidity', 'user_type' : 4}
+        #Pasivos
+        if re.match("(2.1.2.\d\d\d)", cuenta['code']):
+            values = {'type': 'payable', 'user_type' : 3}
+        #Gastos
+        if re.match("(6.1.[1-3].\d\d\d)", cuenta['code']):
+            values = {'type': 'view', 'user_type' : 11}
+        if re.match("(6.1.[1-3].\d\d\d.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 9}
+
+        modificar_cuenta(sock, uid, i, values)
 
 def crear_cuenta(c, sock, uid, cuenta):
     if c == "crear":
@@ -110,7 +127,11 @@ def crear_cuenta(c, sock, uid, cuenta):
         print account_id
 
 def buscar_cuentas(code):
-    buscar = [('code','=', code)]
+    if code == "all":
+        buscar = []
+    else:
+        buscar = [('code','=', code)]
+
     cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
 
     return cod
@@ -195,6 +216,7 @@ if c == "crear":
                                 cuentas.append(cuenta)
                                 codes.append(code)
                                 ac = ac + 1
+    actualizar_cuenta(sock, uid)
 
 #Lista los tipos de cuenta
 if c == "listar":
@@ -212,3 +234,7 @@ if c == "cuentas":
 #Borra todas las cuentas posibles de la BD del OpenERP
 if c == "borrar":
     borrar_cuentas(sock, uid)
+
+#Actualiza las cuentas si estan creadas en el sistema
+if c == "actualizar":
+    actualizar_cuenta(sock, uid)
