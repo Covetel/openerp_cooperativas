@@ -47,8 +47,9 @@ def borrar_cuentas(sock, uid):
 
 
 def get_parent_id(code):
+    match = re.match("(^.*)(\.\d*)", code)
     fields = ['id']
-    buscar = [('code','=', code )]
+    buscar = [('code','=', match.group(1))]
     cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
     parent_id = sock.execute(dbname, uid, pwd, 'account.account', 'read', cod, fields)
     try:
