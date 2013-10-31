@@ -130,11 +130,36 @@ def actualizar_cuenta(sock, uid):
         #Pasivos
         if re.match("(2.1.2.\d\d\d)", cuenta['code']):
             values = {'type': 'payable', 'user_type' : 3}
+        if re.match("(2.1.1.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 7}
+        if re.match("(2.[2-5].1.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 7}
+        #Patrimonio
+        if re.match("(3.\d.\d.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 15}
+        #Ingresos
+        if re.match("(4.\d.\d.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 8}
+        #Compras
+        if re.match("(5.\d.\d.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 9}
         #Gastos
         if re.match("(6.1.[1-3].\d\d\d)", cuenta['code']):
             values = {'type': 'view', 'user_type' : 11}
         if re.match("(6.1.[1-3].\d\d\d.\d\d\d)", cuenta['code']):
             values = {'type': 'other', 'user_type' : 9}
+        if re.match("(6.1.4.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 9}
+        #Otros Egresos
+        if re.match("(7.\d.\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 9}
+        #Anticipos Societarios
+        if re.match("(8.\d.\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 9}
+        #Cuentas de Orden
+        if re.match("(9.\d.\d.\d\d\d)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 9}
+
 
         modificar_cuenta(sock, uid, i, values)
 
