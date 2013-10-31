@@ -58,39 +58,56 @@ def get_parent_id(code):
         return []
 
 def tipo_cuenta(cuenta):
-    if re.match("^\d$", cuenta['code']):
+    if re.match("^[13]", cuenta['code']):
         cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 12})
+        cuenta.update({'user_type' : 1})
         cuenta.update({'reconcile' : True})
-    if re.match("(^[1345789].\d)", cuenta['code']):
-        m = re.match("(^[1345789])", cuenta['code'])
-        parent_id = get_parent_id(m.group(1))
+    if re.match("^2", cuenta['code']):
+        cuenta.update({'type': 'view'})
+        cuenta.update({'user_type' : 1})
+        cuenta.update({'reconcile' : True})
+    if re.match("^4", cuenta['code']):
+        cuenta.update({'type': 'view'})
+        cuenta.update({'user_type' : 1})
+        cuenta.update({'reconcile' : True})
+    if re.match("^[56789]", cuenta['code']):
+        cuenta.update({'type': 'view'})
+        cuenta.update({'user_type' : 1})
+        cuenta.update({'reconcile' : True})
+    if re.match("(^[13].\d|[13].\d.\d)", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
         cuenta.update({'parent_id' : parent_id})
-    if re.match("^[123456789].\d.\d", cuenta['code']):
-        m = re.match("(^[123456789].\d)", cuenta['code'])
-        parent_id = get_parent_id(m.group(1))
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 12})
-        cuenta.update({'parent_id' : parent_id})
-    if re.match("^[123456789].\d.\d.\d.*", cuenta['code']):
-        m = re.match("(^[123456789].\d.\d)", cuenta['code'])
-        parent_id = get_parent_id(m.group(1))
-        cuenta.update({'type': 'other'})
-        cuenta.update({'user_type' : 6})
-        cuenta.update({'parent_id' : parent_id})
-    if re.match("^2.\d", cuenta['code']):
-        m = re.match("(^2)", cuenta['code'])
-        parent_id = get_parent_id(m.group(1))
+    if re.match("^2.\d|2.\d.\d|2.\d.\d.\d.*", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
         cuenta.update({'type': "view"})
         cuenta.update({'user_type' : 13})
         cuenta.update({'parent_id' : parent_id})
-    if re.match("^6.\d", cuenta['code']):
-        m = re.match("(^6)", cuenta['code'])
-        parent_id = get_parent_id(m.group(1))
-        cuenta.update({'type': "view"})
+    if re.match("(^4.\d|4.\d\d|4.\d.\d.\d.*)", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
+        cuenta.update({'type': 'view'})
+        cuenta.update({'user_type' : 10})
+        cuenta.update({'parent_id' : parent_id})
+    if re.match("(^[56789].\d)", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
+        cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 11})
+        cuenta.update({'parent_id' : parent_id})
+    if re.match("^[569].\d.\d|[569].\d.\d.\d.*", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
+        cuenta.update({'type': 'view'})
+        cuenta.update({'user_type' : 11})
+        cuenta.update({'parent_id' : parent_id})
+    if re.match("^[78].\d.\d", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
+        cuenta.update({'type': 'other'})
+        cuenta.update({'user_type' : 9})
+        cuenta.update({'parent_id' : parent_id})
+    if re.match("^[13].\d.\d.\d.*", cuenta['code']):
+        parent_id = get_parent_id(cuenta['code'])
+        cuenta.update({'type': 'other'})
+        cuenta.update({'user_type' : 6})
         cuenta.update({'parent_id' : parent_id})
 
     return cuenta
