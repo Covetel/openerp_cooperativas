@@ -38,6 +38,7 @@ def connect():
 
     return sock, uid
 
+#Borra las cuentas de la base de datos
 def borrar_cuentas(sock, uid):
     buscar = []
     cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
@@ -45,7 +46,7 @@ def borrar_cuentas(sock, uid):
     for i in cod:
         sock.execute(dbname, uid, pwd, 'account.account', 'unlink', cod)
 
-
+#Obtiene el parent_id de una cuenta
 def get_parent_id(code):
     match = re.match("(^.*)(\.\d*)", code)
     fields = ['id']
@@ -57,20 +58,9 @@ def get_parent_id(code):
     except IndexError:
         return []
 
+#Define los tipos de cuentas iniciales
 def tipo_cuenta(cuenta):
-    if re.match("^[13]", cuenta['code']):
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 1})
-        cuenta.update({'reconcile' : True})
-    if re.match("^2", cuenta['code']):
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 1})
-        cuenta.update({'reconcile' : True})
-    if re.match("^4", cuenta['code']):
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 1})
-        cuenta.update({'reconcile' : True})
-    if re.match("^[56789]", cuenta['code']):
+    if re.match("^[123456789]", cuenta['code']):
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 1})
         cuenta.update({'reconcile' : True})
@@ -112,6 +102,7 @@ def tipo_cuenta(cuenta):
 
     return cuenta
 
+#Actualiza los tipos de Cuentas
 def actualizar_cuenta(sock, uid):
     cod = buscar_cuentas("all")
     fields = ['name', 'code', 'type', 'user_type']
