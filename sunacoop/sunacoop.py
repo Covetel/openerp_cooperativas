@@ -46,7 +46,12 @@ class sunacoop_cooperativas(osv.osv):
         (_check_rif, "El rif es invalido debe contener J- al principio", ['rif']),
         (_check_rif_numeros, "El rif no puede contener otras letras", ['rif']),
         (_check_cant_socios, "La cantidad de asociados debe ser mayor o igual a 5", ['asociados']),
-        
+        ]
+    
+    _sql_constraints = [
+        ('rif_uniq', 'unique(rif)', "El Rif debe ser unico"),
+        ('name_uniq', 'unique(razon_social)', "El nombre de la cooperativa deber ser unico"),
+
         ]
 
     _columns = { 
@@ -101,7 +106,12 @@ class sunacoop_parroquias(osv.osv):
 sunacoop_parroquias()
 
 class sunacoop_asociados(osv.osv) :
+
     _name = "sunacoop.asociados"
+
+    def name_get(self, cr, uid, ids, context=None):
+        pass
+
     _columns = { 
         'nombres' : fields.char("Nombres", size=128),
         'apellidos' : fields.char("Apellidos", size=128),
