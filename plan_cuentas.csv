@@ -1,0 +1,236 @@
+Covetel,0
+Activo,1
+Activo Circulante,1.1
+Activo Circulante Disponible,1.1.1
+Caja ,1.1.1.101.
+Caja chica ,1.1.1.102.
+Bancos,1.1.1.201.
+Inversiones Temporales,1.1.2
+Colocaciones Bancarias,1.1.2.101
+Exigible a corto plazo ,1.1.3
+Documentos a cobrar,1.1.3.101
+Documentos a cobrar departamentos ,1.1.3.102
+Documentos a cobrar organismos de integración ,1.1.3.103
+Documentos a cobrar cooperativas,1.1.3.104
+Adelantos a Justificar,1.1.3.105
+Documentos a cobrar trabajadores,1.1.3.106
+Otras Cuentas por Cobrar,1.1.3.107
+Provisión para Cuentas por Cobrar Incobrables,1.1.3.199
+Realizable,1.1.4
+Inventario de Mercancía,1.1.4.101
+Semovientes,1.1.4.102
+Materiales y Suministros,1.1.4.103
+Mercancías en Transito,1.1.4.104
+Mercancías en consignación ,1.1.4.105
+Inventario de Producción de bienes,1.1.5
+Materia Prima,1.1.5.101
+Productos en Proceso ,1.1.5.102
+Productos Terminados,1.1.5.103
+Prepagados,1.1.6
+Seguros Pagados por Anticipado,1.1.6.101
+Inversiones a Largo Plazo ,1.2
+Inversiones a Largo Plazo ,1.2.1
+Documentos a Cobrar Largo Plazo,1.2.1.101
+Terrenos o inmuebles con fines especulativos ,1.2.1.102
+"Propiedad Planta y Equipo",1.3
+No Depreciable,1.3.1
+Terrenos,1.3.1.101
+Depreciable,1.3.2
+Edificios e Instalaciones,1.3.2.103
+Maquinaria y Equipos,1.3.2.104
+Vehículo,1.3.2.105
+Muebles y Enseres,1.3.2.106
+Equipo de Computación,1.3.2.107
+Depreciación Acumulada Edificios,1.3.2.503
+Depreciación Acumulada Maquinaria y Equipos,1.3.2.504
+Depreciación Acumulada Vehículo,1.3.2.505
+Depreciación Acumulada Muebles y Enseres,1.3.2.506
+Depreciación Acumulada Equipo de Computación,1.3.2.507
+Intangible,1.4
+No Amortizable,1.4.1
+Licencias,1.4.1.101
+Amortizables,1.4.2
+Patente de Invención ,1.4.2.101
+Derecho de Autor,1.4.2.102
+Amortización Acumulada Patentes,1.4.2.501
+Amortización Acumulada Derecho de Autor,1.4.2.502
+Cargos Diferidos,1.5
+Cargos Diferidos,1.5.1
+Mejoras al Local arrendado,1.5.1.101
+Puesta en Marcha ,1.5.1.102
+Campaña Publicitaria,1.5.1.103
+Intereses Pagados por Anticipados,1.5.1.104
+Otros Activos,1.6
+Otros Activos,1.6.1
+Depósitos Dados en Garantía,1.6.1.101
+Efectos por Cobrar en Litigio,1.6.1.102
+Pasivo,2
+Pasivo Circulante,2.1
+Créditos u Obligaciones Bancarias ,2.1.1
+Créditos u Obligaciones Bancarias         ,2.1.1.101
+Documentos a Pagar,2.1.2
+Documentos a pagar departamentos,2.1.2.102
+Documentos a pagar organismos de integración ,2.1.2.103
+Documentos a pagar Cooperativas,2.1.2.104
+Retenciones  y Aportes por Pagar,2.1.2.105
+Gastos Acumulados por Pagar,2.1.2.106
+Ahorros a pagar,2.1.2.107
+Excedentes por pagar,2.1.2.108
+Pasivo a Largo Plazo,2.2
+Pasivo a Largo Plazo ,2.2.1
+Proyectos a Largo Plazo,2.2.1.101
+Apartados,2.3
+Apartados,2.3.1
+Prestaciones Sociales,2.3.1.101
+Créditos Diferidos,2.4
+Créditos diferidos,2.4.1
+Intereses Cobrados por Anticipado,2.4.1.101
+Otros Pasivos,2.5
+Otros Pasivos,2.5.1
+Depósitos Recibidos en Garantía,2.5.1.101
+Patrimonio,3
+Certificados,3.1
+Certificados de Aportación,3.1.1
+Certificados de Aportación Suscritos,3.1.1.101
+Certificados de Aportación No Pagados,3.1.1.102
+Certificados de Asociación ,3.1.2
+Certificados de Asociación Suscritos,3.1.2.101
+Certificados de Asociación No Pagados,3.1.2.102
+Certificados de Inversión ,3.1.3
+Certificados de Inversión Suscritos,3.1.3.101
+Certificados Rotativos,3.1.4
+Certificados Rotativos Suscritos,3.1.4.101
+Fondos y Reservas,3.2
+Fondos y Reservas,3.2.1
+Reserva de Emergencia ,3.2.1.101
+Fondo de Protección Social,3.2.1.102
+Fondo de Educación ,3.2.1.103
+Otros Fondos y/o Reservas,3.2.2
+Fondos de Retiro,3.2.2.101
+Donaciones ,3.3
+Donaciones ,3.3.1
+Donaciones ,3.3.1.101
+Excedente o Déficit,3.4
+Excedente o Déficit,3.4.1
+Excedente o Déficit del Ejercicio¡,3.4.1.101
+Excedente o Déficit de Ejercicios Anteriores,3.4.1.102
+Ajustes ejercicios anteriores,3.4.1.199
+Ingresos Brutos,4
+Ingresos Brutos,4.1
+Ingresos por Servicios,4.1.1
+Ingresos por prestación ,4.1.1.101
+Ingresos por ventas,4.1.2
+Ingresos por ventas,4.1.2.101
+Otros Ingresos ,4.1.3
+Otros Ingresos,4.1.3.1
+Ingreso Intereses Bancarios,4.1.3.101
+Costos De Ventas ,5
+Costos de Venta y de Prestación de Servicios ,5.1
+Costos de Venta y de Prestación de Servicios,5.1.1
+Costos de Ventas ,5.1.1.101
+Costo de Servicios ,5.1.1.102
+Compras  ,5.2
+Compras de Mercancías ,5.2.1
+Compras de Mercancías,5.2.1.101
+Compras de Materias Primas,5.2.2
+Compras Materia Prima,5.2.2.101
+Compra de Materiales Indirectos,5.2.3
+Compra de Materiales Indirectos,5.2.3.101
+Devoluciones y Descuentos en Compras,5.2.6
+Devolución en compras,5.2.6.101
+Descuentos en Compras,5.2.6.102
+Costo de Producción ,5.3
+Materia Prima,5.3.1.
+Materia Prima,5.3.1.101
+Mano de Obra Directa,5.3.2
+Mano de Obra Directa,5.3.2.101
+Gastos Operacionales,6
+Gastos Operacionales,6.1
+Gastos de Personal Administrativo,6.1.1
+Gastos de Personal  Administrativo,6.1.1.101
+Sueldos ,6.1.1.101
+Salarios,6.1.1.101
+Suplencias,6.1.1.101
+Prestaciones Sociales,6.1.1.101
+Bono Juguetes hijos trabajadores,6.1.1.101
+Bono por hijos,6.1.1.101
+Bono Alimenticio,6.1.1.101
+Horas Extras,6.1.1.101
+Bono Vacacional ,6.1.1.101
+Servicios Recibidos de terceros ,6.1.1.101
+Aguinaldos Empleados ,6.1.1.101
+Aguinaldos al personal obrero ,6.1.1.101
+Aporte patronal SSO empleados,6.1.1.101
+Aporte patronal SSO obreros,6.1.1.101
+Aporte patronal paro forzoso empleados,6.1.1.101
+Aporte patronal paro forzoso obreros ,6.1.1.101
+Aporte patronal L.P.H ,6.1.1.101
+Materiales y Suministros,6.1.2
+Materiales y Suministros,6.1.2.102
+Combustibles y Lubricantes,6.1.2.102
+Papelería y Artículos de Oficina,6.1.2.102
+"Libros Revistas y Periódicos",6.1.2.102
+Material de Uso doméstico y residencial,6.1.2.102
+Prendas de Vestir,6.1.2.102
+Materiales de Construcción,6.1.2.102
+Bono Alimenticio,6.1.1.101
+Horas Extras,6.1.1.101
+Bono Vacacional ,6.1.1.101
+Servicios Recibidos de terceros ,6.1.1.101
+Aguinaldos Empleados ,6.1.1.101
+Aguinaldos al personal obrero ,6.1.1.101
+Aporte patronal SSO empleados,6.1.1.101
+Aporte patronal SSO obreros,6.1.1.101
+Aporte patronal paro forzoso empleados,6.1.1.101
+Aporte patronal paro forzoso obreros ,6.1.1.101
+Aporte patronal L.P.H ,6.1.1.101
+Materiales y Suministros,6.1.2
+Materiales y Suministros,6.1.2.102
+Combustibles y Lubricantes,6.1.2.102
+Papelería y Artículos de Oficina,6.1.2.102
+"Libros Revistas y Periódicos",6.1.2.102
+Material de Uso doméstico y residencial,6.1.2.102
+Prendas de Vestir,6.1.2.102
+Materiales de Construcción,6.1.2.102
+Útiles y Materiales de Aseo,6.1.2.102
+Repuestos y Accesorios Vehículos ,6.1.2.102
+Repuestos y Accesorios Otros Equipos,6.1.2.102
+Herramientas Menores,6.1.2.102
+"Condecoraciones Ofrendas y Similares",6.1.2.102
+Placas de identificación de vehículos,6.1.2.102
+Servicios y Mantenimiento,6.1.3
+Servicios y Mantenimientos,6.1.3.103
+Alquiler de Edificios y Locales,6.1.3.103
+Alquiles de Equipos de Transportes,6.1.3.103
+Alquiler de otros equipos,6.1.3.103
+Electricidad,6.1.3.103
+Gas,6.1.3.103
+Agua,6.1.3.103
+Teléfono,6.1.3.103
+Servicios de Comunicación,6.1.3.103
+Aseo Urbano,6.1.3.103
+Fletes y Embalajes,6.1.3.103
+Estacionamientos,6.1.3.103
+Peajes,6.1.3.103
+Publicidad y Propagandas,6.1.3.103
+Primas y Gastos de Seguros  ,6.1.3.103
+Comisiones y Gastos Bancarios,6.1.3.103
+Viáticos,6.1.3.103
+Conservación  y/o reparación de equipos de transporte,6.1.3.103
+Conservación  y/o reparación de otros equipos,6.1.3.103
+Reparación menor de inmuebles,6.1.3.103
+Depreciaciones y amortizaciones,6.1.4
+Depreciaciones ,6.1.4.101
+Amortizaciones,6.1.4.102
+Otros Egresos,7
+Otros Egresos,7.1
+Pérdida por robo de activos,7.1.1
+Anticipos Societarios,8
+Anticipos  Societarios,8.1
+Anticipos Societarios,8.1.1
+Cuentas de Orden ,9
+Cuentas de Orden ,9.1
+Cuentas de Orden Deudoras,9.1.1
+Proyectos entregados,9.1.1.101
+Cuentas de Orden per contra,9.1.2
+Proyectos entregados per contra,9.1.2.101
