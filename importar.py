@@ -28,6 +28,11 @@ pwd = settings.pwd
 dbname = settings.dbname
 source_table = open("plan_cuentas.csv")
 
+cuentas = []
+codes = []
+ac = 101
+account_id = 0;
+
 def connect():
     # Get the uid
     sock_common = xmlrpclib.ServerProxy ('http://localhost:8069/xmlrpc/common')
@@ -47,7 +52,7 @@ def borrar_cuentas(sock, uid):
         sock.execute(dbname, uid, pwd, 'account.account', 'unlink', cod)
 
 #Obtiene el parent_id de una cuenta
-def get_parent_id(code):
+def get_parent_id(sock, uid, code):
     match = re.match("(^.*)(\.\d*)", code)
     fields = ['id']
     buscar = [('code','=', match.group(1))]
@@ -59,43 +64,43 @@ def get_parent_id(code):
         return []
 
 #Define los tipos de cuentas iniciales
-def tipo_cuenta(cuenta):
-    if re.match("^[123456789]", cuenta['code']):
+def tipo_cuenta(sock, uid, cuenta):
+    if re.match("^[0123456789]", cuenta['code']):
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 1})
         cuenta.update({'reconcile' : True})
     if re.match("(^[13].\d|[13].\d.\d)", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 12})
         cuenta.update({'parent_id' : parent_id})
     if re.match("^2.\d|2.\d.\d|2.\d.\d.\d.*", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': "view"})
         cuenta.update({'user_type' : 13})
         cuenta.update({'parent_id' : parent_id})
     if re.match("(^4.\d|4.\d\d|4.\d.\d.\d.*)", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 10})
         cuenta.update({'parent_id' : parent_id})
     if re.match("(^[56789].\d)", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 11})
         cuenta.update({'parent_id' : parent_id})
     if re.match("^[569].\d.\d|[569].\d.\d.\d.*", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': 'view'})
         cuenta.update({'user_type' : 11})
         cuenta.update({'parent_id' : parent_id})
     if re.match("^[78].\d.\d", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': 'other'})
         cuenta.update({'user_type' : 9})
         cuenta.update({'parent_id' : parent_id})
     if re.match("^[13].\d.\d.\d.*", cuenta['code']):
-        parent_id = get_parent_id(cuenta['code'])
+        parent_id = get_parent_id(sock, uid, cuenta['code'])
         cuenta.update({'type': 'other'})
         cuenta.update({'user_type' : 6})
         cuenta.update({'parent_id' : parent_id})
@@ -104,7 +109,7 @@ def tipo_cuenta(cuenta):
 
 #Actualiza los tipos de Cuentas
 def actualizar_cuenta(sock, uid):
-    cod = buscar_cuentas("all")
+    cod = buscar_cuentas(sock, uid, "all")
     fields = ['name', 'code', 'type', 'user_type']
     for i in cod:
         cuenta = sock.execute(dbname, uid, pwd, 'account.account', 'read', i, fields)
@@ -151,7 +156,6 @@ def actualizar_cuenta(sock, uid):
         if re.match("(9.\d.\d.\d\d\d)", cuenta['code']):
             values = {'type': 'other', 'user_type' : 9}
 
-
         modificar_cuenta(sock, uid, i, values)
 
 def crear_cuenta(c, sock, uid, cuenta):
@@ -160,7 +164,7 @@ def crear_cuenta(c, sock, uid, cuenta):
         account_id = sock.execute(dbname, uid, pwd, 'account.account', 'create', cuenta)
         print account_id
 
-def buscar_cuentas(code):
+def buscar_cuentas(sock, uid, code):
     if code == "all":
         buscar = []
     else:
@@ -173,7 +177,7 @@ def buscar_cuentas(code):
 def modificar_cuenta(sock, uid, ids, values):
     account_id = sock.execute(dbname, uid, pwd, 'account.account', 'write', ids, values)
 
-def listar_tipo_cuentas():
+def listar_tipo_cuentas(sock, uid):
     fields = ['name', 'code']
     buscar = [('name','=', '')]
     cod = sock.execute(dbname, uid, pwd, 'account.account.type', 'search', buscar)
@@ -181,26 +185,18 @@ def listar_tipo_cuentas():
         types = sock.execute(dbname, uid, pwd, 'account.account.type', 'read', i, fields)
         print types
 
-def detalle_cuenta(code):
-    cod = buscar_cuentas(code) 
-    fields = ['name', 'code', 'type', 'user_type']
+def detalle_cuenta(sock, uid, code):
+    cod = buscar_cuentas(sock, uid, code)
+    fields = []
     for i in cod:
         account = sock.execute(dbname, uid, pwd, 'account.account', 'read', i, fields)
         print account
 
     return cod
 
+def insertar_plan_cuentas(source_table, sock, uid):
+    global ac
 
-cuentas = []
-codes = []
-
-ac = 101
-
-(sock, uid) = connect()
-
-account_id = 0;
-
-if c == "crear":
     for line in source_table.readlines()[0:]:
             if True:
 
@@ -215,12 +211,12 @@ if c == "crear":
                    'name': name,
                 }
 
-                tipo_cuenta(cuenta)
+                tipo_cuenta(sock, uid, cuenta)
 
                 match = cuenta in cuentas
 
                 #Valido que la cuenta no exista
-                code_find = buscar_cuentas(code)
+                code_find = buscar_cuentas(sock, uid, code)
 
                 #Valido que el codigo no pertenesca al plan de cuentas de cooperativa para que no sea modificado
                 coop_code = re.match("^.*\..*", code)
@@ -252,23 +248,33 @@ if c == "crear":
                                 ac = ac + 1
     actualizar_cuenta(sock, uid)
 
-#Lista los tipos de cuenta
-if c == "listar":
-    listar_tipo_cuentas()
 
-#Lista la cuenta pasada como parametro
-if c == "cuentas":
-    try:
-        cc = sys.argv[2]
-    except IndexError:
-        print "Indique el codigo de la cuenta"
-        sys.exit()
-    detalle_cuenta(cc)
-    
-#Borra todas las cuentas posibles de la BD del OpenERP
-if c == "borrar":
-    borrar_cuentas(sock, uid)
+def main():
+    (sock, uid) = connect()
 
-#Actualiza las cuentas si estan creadas en el sistema
-if c == "actualizar":
-    actualizar_cuenta(sock, uid)
+    #Inserta el plan de cuentas en OpenERP
+    if c == "crear":
+        insertar_plan_cuentas(source_table, sock, uid)
+
+    #Lista los tipos de cuenta
+    if c == "listar":
+        listar_tipo_cuentas(sock, uid)
+
+    #Lista la cuenta pasada como parametro
+    if c == "cuentas":
+        try:
+            cc = sys.argv[2]
+        except IndexError:
+            print "Indique el codigo de la cuenta"
+            sys.exit()
+        detalle_cuenta(sock, uid, cc)
+
+    #Borra todas las cuentas posibles de la BD del OpenERP
+    if c == "borrar":
+        borrar_cuentas(sock, uid)
+
+    #Actualiza las cuentas si estan creadas en el sistema
+    if c == "actualizar":
+        actualizar_cuenta(sock, uid)
+
+main()
