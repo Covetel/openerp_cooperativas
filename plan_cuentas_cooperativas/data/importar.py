@@ -218,7 +218,10 @@ def modificar_cuenta(sock, uid, ids, values):
 
 def listar_tipo_cuentas(sock, uid, code):
     fields = ['name', 'code']
-    buscar = [('name','=', code)]
+    if code == "":
+        buscar = []
+    else:
+        buscar = [('id','=', code)]
     cod = sock.execute(dbname, uid, pwd, 'account.account.type', 'search', buscar)
     for i in cod:
         types = sock.execute(dbname, uid, pwd, 'account.account.type', 'read', i, fields)
