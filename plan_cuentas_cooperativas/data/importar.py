@@ -9,10 +9,13 @@ Banderas:
 crear - Crea el plan de cuentas desde el archivo plan_cuentas.csv
 listar - Lista los tipos de cuentas
 cuentas [codigo de cuenta] - Lista la cuenta indicada
+actualizar - Actualiza las cuentas
+xml - Crea xml con las cuentas y su clasificación
 
 """
 
 import xmlrpclib, sys, settings, re
+import convertocsv
 
 c = "";
 cc = "";
@@ -65,45 +68,71 @@ def get_parent_id(sock, uid, code):
 
 #Define los tipos de cuentas iniciales
 def tipo_cuenta(sock, uid, cuenta):
+    #Clasificación de Cuentas padre
     if re.match("^[0123456789]", cuenta['code']):
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 1})
-        cuenta.update({'reconcile' : True})
+        cuenta.update({'type': 'view', 'user_type' : 1, 'parent_id' : '0', 'reconcile' : True})
     if re.match("(^[13].\d|[13].\d.\d)", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 12})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': 'view', 'user_type' : 12, 'parent_id' : parent_id})
     if re.match("^2.\d|2.\d.\d|2.\d.\d.\d.*", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': "view"})
-        cuenta.update({'user_type' : 13})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': "view", 'user_type' : 13, 'parent_id' : parent_id})
     if re.match("(^4.\d|4.\d\d|4.\d.\d.\d.*)", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 10})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': 'view', 'user_type' : 10, 'parent_id' : parent_id})
     if re.match("(^[56789].\d)", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 11})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': 'view', 'user_type' : 11, 'parent_id' : parent_id})
     if re.match("^[569].\d.\d|[569].\d.\d.\d.*", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view'})
-        cuenta.update({'user_type' : 11})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': 'view', 'user_type' : 11, 'parent_id' : parent_id})
     if re.match("^[78].\d.\d", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'other'})
-        cuenta.update({'user_type' : 9})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': 'other', 'user_type' : 9, 'parent_id' : parent_id})
     if re.match("^[13].\d.\d.\d.*", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'other'})
-        cuenta.update({'user_type' : 6})
-        cuenta.update({'parent_id' : parent_id})
+        cuenta.update({'type': 'other', 'user_type' : 6, 'parent_id' : parent_id})
+
+    #Clasificación de Cuentas hijas
+    #Activos
+    if re.match("(1.1.3.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'receivable', 'user_type' : 2})
+    if re.match("(1.1.1.1\d\d)", cuenta['code']):
+        cuenta.update({'type': 'liquidity', 'user_type' : 5})
+    if re.match("(1.1.1.2\d\d)", cuenta['code']):
+        cuenta.update({'type': 'liquidity', 'user_type' : 4})
+    #Pasivos
+    if re.match("(2.1.2.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'payable', 'user_type' : 3})
+    if re.match("(2.1.1.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 7})
+    if re.match("(2.[2-5].1.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 7})
+    #Patrimonio
+    if re.match("(3.\d.\d.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 15})
+    #Ingresos
+    if re.match("(4.\d.\d.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 8})
+    #Compras
+    if re.match("(5.\d.\d.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 9})
+    #Gastos
+    if re.match("(6.1.[1-3].\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'view', 'user_type' : 11})
+    if re.match("(6.1.[1-3].\d\d\d.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 9})
+    if re.match("(6.1.4.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 9})
+    #Otros Egresos
+    if re.match("(7.\d.\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 9})
+    #Anticipos Societarios
+    if re.match("(8.\d.\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 9})
+    #Cuentas de Orden
+    if re.match("(9.\d.\d.\d\d\d)", cuenta['code']):
+        cuenta.update({'type': 'other', 'user_type' : 9})
 
     return cuenta
 
@@ -203,7 +232,6 @@ def insertar_plan_cuentas(source_table, sock, uid):
                 l = line.split(",")
 
                 code = re.sub("[\n\.]$", "", l[1])
-                #name = l[0].replace('"', '')
                 name = l[0].replace('"', '')
 
                 cuenta = {
@@ -246,7 +274,46 @@ def insertar_plan_cuentas(source_table, sock, uid):
                                 cuentas.append(cuenta)
                                 codes.append(code)
                                 ac = ac + 1
-    actualizar_cuenta(sock, uid)
+
+def hacer_xml(sock, uid):
+    global ac, cuentas
+
+    for line in source_table.readlines()[0:]:
+            if True:
+
+                l = line.split(",")
+
+                code = re.sub("[\n\.]$", "", l[1])
+                name = l[0].replace('"', '')
+                row = ""
+
+                cuenta = {
+                   'code': code,
+                   'name': name,
+                }
+
+                tipo_cuenta(sock, uid, cuenta)
+
+                match = cuenta in cuentas
+
+                #Inserta las cuentas desde el csv
+                if not match:
+                    match_code = code in codes
+
+                    if not match_code:
+                        cuentas.append(cuenta)
+                        codes.append(code)
+                        ac = 101
+                    else:
+                        code = code+"."+str(ac)
+                        cuenta.update({'code':code})
+
+                        if not code in codes:
+                            cuentas.append(cuenta)
+                            codes.append(code)
+                            ac = ac + 1
+
+    convertocsv.main(cuentas)
 
 
 def main():
@@ -276,5 +343,9 @@ def main():
     #Actualiza las cuentas si estan creadas en el sistema
     if c == "actualizar":
         actualizar_cuenta(sock, uid)
+
+    #Hacer csv
+    if c == "xml":
+        hacer_xml(sock, uid)
 
 main()
