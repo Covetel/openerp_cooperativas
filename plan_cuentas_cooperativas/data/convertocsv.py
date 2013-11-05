@@ -90,7 +90,7 @@ def _xml_record_type(model_type, data):
 def _xml_record_template(cuenta, data):
     record = etree.SubElement(data, "record")
     record.set("model", "account.account.template")
-    record.set("id", "account_cooperativa_" + cuenta['code'])
+    record.set("id", "account_cooperativa_" + cuenta['id'])
 
     field = etree.SubElement(record, "field")
     field.set("name", "code")
