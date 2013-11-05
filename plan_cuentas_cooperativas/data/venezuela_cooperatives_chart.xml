@@ -1,0 +1,1838 @@
+<openerp>
+  <data noupdate="1">
+    <record model="account.account.type" id="account_type_income_view1">
+      <field name="name">Income View</field>
+      <field name="code">view</field>
+      <field name="report_type">income</field>
+    </record>
+    <record model="account.account.type" id="account_type_expense_view1">
+      <field name="name">Expense View</field>
+      <field name="code">expense</field>
+      <field name="report_type">expense</field>
+    </record>
+    <record model="account.account.type" id="account_type_asset_view1">
+      <field name="name">Asset View</field>
+      <field name="code">asset</field>
+      <field name="report_type">asset</field>
+    </record>
+    <record model="account.account.type" id="account_type_liability_view1">
+      <field name="name">Liability View</field>
+      <field name="code">liability</field>
+      <field name="report_type">liability</field>
+    </record>
+    <record model="account.account.type" id="account_type_tax">
+      <field name="name">Tax</field>
+      <field name="code">tax</field>
+      <field name="close_method">unreconciled</field>
+      <field name="report_type">expense</field>
+    </record>
+    <record model="account.account.type" id="account_type_equity">
+      <field name="name">Equity</field>
+      <field name="code">equity</field>
+      <field name="close_method">balance</field>
+      <field name="report_type">liability</field>
+    </record>
+    <record model="account.account.type" id="account_type_check">
+      <field name="name">Check</field>
+      <field name="code">check</field>
+      <field name="close_method">balance</field>
+      <field name="report_type">asset</field>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_0">
+      <field name="code">0</field>
+      <field name="name">Cooperativas</field>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_1">
+      <field name="code">1</field>
+      <field name="name">Activo</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_11">
+      <field name="code">1.1</field>
+      <field name="name">Activo Circulante</field>
+      <field name="parent_id" ref="account_cooperativa_1"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_111">
+      <field name="code">1.1.1</field>
+      <field name="name">Activo Circulante Disponible</field>
+      <field name="parent_id" ref="account_cooperativa_11"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_111101">
+      <field name="code">1.1.1.101</field>
+      <field name="name">Caja </field>
+      <field name="parent_id" ref="account_cooperativa_111"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">liquidity</field>
+      <field name="user_type" ref="account_type_cash"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_111102">
+      <field name="code">1.1.1.102</field>
+      <field name="name">Caja chica </field>
+      <field name="parent_id" ref="account_cooperativa_111"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">liquidity</field>
+      <field name="user_type" ref="account_type_cash"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_111201">
+      <field name="code">1.1.1.201</field>
+      <field name="name">Bancos</field>
+      <field name="parent_id" ref="account_cooperativa_111"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">liquidity</field>
+      <field name="user_type" ref="account_type_bank"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_112">
+      <field name="code">1.1.2</field>
+      <field name="name">Inversiones Temporales</field>
+      <field name="parent_id" ref="account_cooperativa_11"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_112101">
+      <field name="code">1.1.2.101</field>
+      <field name="name">Colocaciones Bancarias</field>
+      <field name="parent_id" ref="account_cooperativa_112"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113">
+      <field name="code">1.1.3</field>
+      <field name="name">Exigible a corto plazo </field>
+      <field name="parent_id" ref="account_cooperativa_11"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113101">
+      <field name="code">1.1.3.101</field>
+      <field name="name">Documentos a cobrar</field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113102">
+      <field name="code">1.1.3.102</field>
+      <field name="name">Documentos a cobrar departamentos </field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113103">
+      <field name="code">1.1.3.103</field>
+      <field name="name">Documentos a cobrar organismos de integraci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113104">
+      <field name="code">1.1.3.104</field>
+      <field name="name">Documentos a cobrar cooperativas</field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113105">
+      <field name="code">1.1.3.105</field>
+      <field name="name">Adelantos a Justificar</field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113106">
+      <field name="code">1.1.3.106</field>
+      <field name="name">Documentos a cobrar trabajadores</field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113107">
+      <field name="code">1.1.3.107</field>
+      <field name="name">Otras Cuentas por Cobrar</field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_113199">
+      <field name="code">1.1.3.199</field>
+      <field name="name">Provisi&#243;n para Cuentas por Cobrar Incobrables</field>
+      <field name="parent_id" ref="account_cooperativa_113"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">receivable</field>
+      <field name="user_type" ref="account_type_receivable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_114">
+      <field name="code">1.1.4</field>
+      <field name="name">Realizable</field>
+      <field name="parent_id" ref="account_cooperativa_11"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_114101">
+      <field name="code">1.1.4.101</field>
+      <field name="name">Inventario de Mercanc&#237;a</field>
+      <field name="parent_id" ref="account_cooperativa_114"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_114102">
+      <field name="code">1.1.4.102</field>
+      <field name="name">Semovientes</field>
+      <field name="parent_id" ref="account_cooperativa_114"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_114103">
+      <field name="code">1.1.4.103</field>
+      <field name="name">Materiales y Suministros</field>
+      <field name="parent_id" ref="account_cooperativa_114"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_114104">
+      <field name="code">1.1.4.104</field>
+      <field name="name">Mercanc&#237;as en Transito</field>
+      <field name="parent_id" ref="account_cooperativa_114"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_114105">
+      <field name="code">1.1.4.105</field>
+      <field name="name">Mercanc&#237;as en consignaci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_114"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_115">
+      <field name="code">1.1.5</field>
+      <field name="name">Inventario de Producci&#243;n de bienes</field>
+      <field name="parent_id" ref="account_cooperativa_11"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_115101">
+      <field name="code">1.1.5.101</field>
+      <field name="name">Materia Prima</field>
+      <field name="parent_id" ref="account_cooperativa_115"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_115102">
+      <field name="code">1.1.5.102</field>
+      <field name="name">Productos en Proceso </field>
+      <field name="parent_id" ref="account_cooperativa_115"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_115103">
+      <field name="code">1.1.5.103</field>
+      <field name="name">Productos Terminados</field>
+      <field name="parent_id" ref="account_cooperativa_115"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_116">
+      <field name="code">1.1.6</field>
+      <field name="name">Prepagados</field>
+      <field name="parent_id" ref="account_cooperativa_11"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_116101">
+      <field name="code">1.1.6.101</field>
+      <field name="name">Seguros Pagados por Anticipado</field>
+      <field name="parent_id" ref="account_cooperativa_116"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_12">
+      <field name="code">1.2</field>
+      <field name="name">Inversiones a Largo Plazo </field>
+      <field name="parent_id" ref="account_cooperativa_1"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_121">
+      <field name="code">1.2.1</field>
+      <field name="name">Inversiones a Largo Plazo </field>
+      <field name="parent_id" ref="account_cooperativa_12"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_121101">
+      <field name="code">1.2.1.101</field>
+      <field name="name">Documentos a Cobrar Largo Plazo</field>
+      <field name="parent_id" ref="account_cooperativa_121"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_121102">
+      <field name="code">1.2.1.102</field>
+      <field name="name">Terrenos o inmuebles con fines especulativos </field>
+      <field name="parent_id" ref="account_cooperativa_121"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_13">
+      <field name="code">1.3</field>
+      <field name="name">Propiedad Planta y Equipo</field>
+      <field name="parent_id" ref="account_cooperativa_1"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_131">
+      <field name="code">1.3.1</field>
+      <field name="name">No Depreciable</field>
+      <field name="parent_id" ref="account_cooperativa_13"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_131101">
+      <field name="code">1.3.1.101</field>
+      <field name="name">Terrenos</field>
+      <field name="parent_id" ref="account_cooperativa_131"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132">
+      <field name="code">1.3.2</field>
+      <field name="name">Depreciable</field>
+      <field name="parent_id" ref="account_cooperativa_13"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132103">
+      <field name="code">1.3.2.103</field>
+      <field name="name">Edificios e Instalaciones</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132104">
+      <field name="code">1.3.2.104</field>
+      <field name="name">Maquinaria y Equipos</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132105">
+      <field name="code">1.3.2.105</field>
+      <field name="name">Veh&#237;culo</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132106">
+      <field name="code">1.3.2.106</field>
+      <field name="name">Muebles y Enseres</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132107">
+      <field name="code">1.3.2.107</field>
+      <field name="name">Equipo de Computaci&#243;n</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132503">
+      <field name="code">1.3.2.503</field>
+      <field name="name">Depreciaci&#243;n Acumulada Edificios</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132504">
+      <field name="code">1.3.2.504</field>
+      <field name="name">Depreciaci&#243;n Acumulada Maquinaria y Equipos</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132505">
+      <field name="code">1.3.2.505</field>
+      <field name="name">Depreciaci&#243;n Acumulada Veh&#237;culo</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132506">
+      <field name="code">1.3.2.506</field>
+      <field name="name">Depreciaci&#243;n Acumulada Muebles y Enseres</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_132507">
+      <field name="code">1.3.2.507</field>
+      <field name="name">Depreciaci&#243;n Acumulada Equipo de Computaci&#243;n</field>
+      <field name="parent_id" ref="account_cooperativa_132"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_14">
+      <field name="code">1.4</field>
+      <field name="name">Intangible</field>
+      <field name="parent_id" ref="account_cooperativa_1"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_141">
+      <field name="code">1.4.1</field>
+      <field name="name">No Amortizable</field>
+      <field name="parent_id" ref="account_cooperativa_14"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_141101">
+      <field name="code">1.4.1.101</field>
+      <field name="name">Licencias</field>
+      <field name="parent_id" ref="account_cooperativa_141"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_142">
+      <field name="code">1.4.2</field>
+      <field name="name">Amortizables</field>
+      <field name="parent_id" ref="account_cooperativa_14"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_142101">
+      <field name="code">1.4.2.101</field>
+      <field name="name">Patente de Invenci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_142"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_142102">
+      <field name="code">1.4.2.102</field>
+      <field name="name">Derecho de Autor</field>
+      <field name="parent_id" ref="account_cooperativa_142"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_142501">
+      <field name="code">1.4.2.501</field>
+      <field name="name">Amortizaci&#243;n Acumulada Patentes</field>
+      <field name="parent_id" ref="account_cooperativa_142"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_142502">
+      <field name="code">1.4.2.502</field>
+      <field name="name">Amortizaci&#243;n Acumulada Derecho de Autor</field>
+      <field name="parent_id" ref="account_cooperativa_142"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_15">
+      <field name="code">1.5</field>
+      <field name="name">Cargos Diferidos</field>
+      <field name="parent_id" ref="account_cooperativa_1"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_151">
+      <field name="code">1.5.1</field>
+      <field name="name">Cargos Diferidos</field>
+      <field name="parent_id" ref="account_cooperativa_15"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_151101">
+      <field name="code">1.5.1.101</field>
+      <field name="name">Mejoras al Local arrendado</field>
+      <field name="parent_id" ref="account_cooperativa_151"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_151102">
+      <field name="code">1.5.1.102</field>
+      <field name="name">Puesta en Marcha </field>
+      <field name="parent_id" ref="account_cooperativa_151"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_151103">
+      <field name="code">1.5.1.103</field>
+      <field name="name">Campa&#241;a Publicitaria</field>
+      <field name="parent_id" ref="account_cooperativa_151"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_151104">
+      <field name="code">1.5.1.104</field>
+      <field name="name">Intereses Pagados por Anticipados</field>
+      <field name="parent_id" ref="account_cooperativa_151"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_16">
+      <field name="code">1.6</field>
+      <field name="name">Otros Activos</field>
+      <field name="parent_id" ref="account_cooperativa_1"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_161">
+      <field name="code">1.6.1</field>
+      <field name="name">Otros Activos</field>
+      <field name="parent_id" ref="account_cooperativa_16"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_161101">
+      <field name="code">1.6.1.101</field>
+      <field name="name">Dep&#243;sitos Dados en Garant&#237;a</field>
+      <field name="parent_id" ref="account_cooperativa_161"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_161102">
+      <field name="code">1.6.1.102</field>
+      <field name="name">Efectos por Cobrar en Litigio</field>
+      <field name="parent_id" ref="account_cooperativa_161"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_2">
+      <field name="code">2</field>
+      <field name="name">Pasivo</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_21">
+      <field name="code">2.1</field>
+      <field name="name">Pasivo Circulante</field>
+      <field name="parent_id" ref="account_cooperativa_2"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_211">
+      <field name="code">2.1.1</field>
+      <field name="name">Cr&#233;ditos u Obligaciones Bancarias </field>
+      <field name="parent_id" ref="account_cooperativa_21"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_211101">
+      <field name="code">2.1.1.101</field>
+      <field name="name">Cr&#233;ditos u Obligaciones Bancarias         </field>
+      <field name="parent_id" ref="account_cooperativa_211"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212">
+      <field name="code">2.1.2</field>
+      <field name="name">Documentos a Pagar</field>
+      <field name="parent_id" ref="account_cooperativa_21"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212102">
+      <field name="code">2.1.2.102</field>
+      <field name="name">Documentos a pagar departamentos</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212103">
+      <field name="code">2.1.2.103</field>
+      <field name="name">Documentos a pagar organismos de integraci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212104">
+      <field name="code">2.1.2.104</field>
+      <field name="name">Documentos a pagar Cooperativas</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212105">
+      <field name="code">2.1.2.105</field>
+      <field name="name">Retenciones  y Aportes por Pagar</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212106">
+      <field name="code">2.1.2.106</field>
+      <field name="name">Gastos Acumulados por Pagar</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212107">
+      <field name="code">2.1.2.107</field>
+      <field name="name">Ahorros a pagar</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_212108">
+      <field name="code">2.1.2.108</field>
+      <field name="name">Excedentes por pagar</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_22">
+      <field name="code">2.2</field>
+      <field name="name">Pasivo a Largo Plazo</field>
+      <field name="parent_id" ref="account_cooperativa_2"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_221">
+      <field name="code">2.2.1</field>
+      <field name="name">Pasivo a Largo Plazo </field>
+      <field name="parent_id" ref="account_cooperativa_22"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_221101">
+      <field name="code">2.2.1.101</field>
+      <field name="name">Proyectos a Largo Plazo</field>
+      <field name="parent_id" ref="account_cooperativa_221"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_23">
+      <field name="code">2.3</field>
+      <field name="name">Apartados</field>
+      <field name="parent_id" ref="account_cooperativa_2"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_231">
+      <field name="code">2.3.1</field>
+      <field name="name">Apartados</field>
+      <field name="parent_id" ref="account_cooperativa_23"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_231101">
+      <field name="code">2.3.1.101</field>
+      <field name="name">Prestaciones Sociales</field>
+      <field name="parent_id" ref="account_cooperativa_231"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_24">
+      <field name="code">2.4</field>
+      <field name="name">Cr&#233;ditos Diferidos</field>
+      <field name="parent_id" ref="account_cooperativa_2"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_241">
+      <field name="code">2.4.1</field>
+      <field name="name">Cr&#233;ditos diferidos</field>
+      <field name="parent_id" ref="account_cooperativa_24"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_241101">
+      <field name="code">2.4.1.101</field>
+      <field name="name">Intereses Cobrados por Anticipado</field>
+      <field name="parent_id" ref="account_cooperativa_241"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_25">
+      <field name="code">2.5</field>
+      <field name="name">Otros Pasivos</field>
+      <field name="parent_id" ref="account_cooperativa_2"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_251">
+      <field name="code">2.5.1</field>
+      <field name="name">Otros Pasivos</field>
+      <field name="parent_id" ref="account_cooperativa_25"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_251101">
+      <field name="code">2.5.1.101</field>
+      <field name="name">Dep&#243;sitos Recibidos en Garant&#237;a</field>
+      <field name="parent_id" ref="account_cooperativa_251"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_3">
+      <field name="code">3</field>
+      <field name="name">Patrimonio</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_31">
+      <field name="code">3.1</field>
+      <field name="name">Certificados</field>
+      <field name="parent_id" ref="account_cooperativa_3"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_311">
+      <field name="code">3.1.1</field>
+      <field name="name">Certificados de Aportaci&#243;n</field>
+      <field name="parent_id" ref="account_cooperativa_31"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_311101">
+      <field name="code">3.1.1.101</field>
+      <field name="name">Certificados de Aportaci&#243;n Suscritos</field>
+      <field name="parent_id" ref="account_cooperativa_311"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_311102">
+      <field name="code">3.1.1.102</field>
+      <field name="name">Certificados de Aportaci&#243;n No Pagados</field>
+      <field name="parent_id" ref="account_cooperativa_311"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_312">
+      <field name="code">3.1.2</field>
+      <field name="name">Certificados de Asociaci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_31"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_312101">
+      <field name="code">3.1.2.101</field>
+      <field name="name">Certificados de Asociaci&#243;n Suscritos</field>
+      <field name="parent_id" ref="account_cooperativa_312"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_312102">
+      <field name="code">3.1.2.102</field>
+      <field name="name">Certificados de Asociaci&#243;n No Pagados</field>
+      <field name="parent_id" ref="account_cooperativa_312"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_313">
+      <field name="code">3.1.3</field>
+      <field name="name">Certificados de Inversi&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_31"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_313101">
+      <field name="code">3.1.3.101</field>
+      <field name="name">Certificados de Inversi&#243;n Suscritos</field>
+      <field name="parent_id" ref="account_cooperativa_313"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_314">
+      <field name="code">3.1.4</field>
+      <field name="name">Certificados Rotativos</field>
+      <field name="parent_id" ref="account_cooperativa_31"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_314101">
+      <field name="code">3.1.4.101</field>
+      <field name="name">Certificados Rotativos Suscritos</field>
+      <field name="parent_id" ref="account_cooperativa_314"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_32">
+      <field name="code">3.2</field>
+      <field name="name">Fondos y Reservas</field>
+      <field name="parent_id" ref="account_cooperativa_3"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_321">
+      <field name="code">3.2.1</field>
+      <field name="name">Fondos y Reservas</field>
+      <field name="parent_id" ref="account_cooperativa_32"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_321101">
+      <field name="code">3.2.1.101</field>
+      <field name="name">Reserva de Emergencia </field>
+      <field name="parent_id" ref="account_cooperativa_321"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_321102">
+      <field name="code">3.2.1.102</field>
+      <field name="name">Fondo de Protecci&#243;n Social</field>
+      <field name="parent_id" ref="account_cooperativa_321"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_321103">
+      <field name="code">3.2.1.103</field>
+      <field name="name">Fondo de Educaci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_321"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_322">
+      <field name="code">3.2.2</field>
+      <field name="name">Otros Fondos y/o Reservas</field>
+      <field name="parent_id" ref="account_cooperativa_32"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_322101">
+      <field name="code">3.2.2.101</field>
+      <field name="name">Fondos de Retiro</field>
+      <field name="parent_id" ref="account_cooperativa_322"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_33">
+      <field name="code">3.3</field>
+      <field name="name">Donaciones </field>
+      <field name="parent_id" ref="account_cooperativa_3"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_331">
+      <field name="code">3.3.1</field>
+      <field name="name">Donaciones </field>
+      <field name="parent_id" ref="account_cooperativa_33"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_331101">
+      <field name="code">3.3.1.101</field>
+      <field name="name">Donaciones </field>
+      <field name="parent_id" ref="account_cooperativa_331"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_34">
+      <field name="code">3.4</field>
+      <field name="name">Excedente o D&#233;ficit</field>
+      <field name="parent_id" ref="account_cooperativa_3"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_341">
+      <field name="code">3.4.1</field>
+      <field name="name">Excedente o D&#233;ficit</field>
+      <field name="parent_id" ref="account_cooperativa_34"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_341101">
+      <field name="code">3.4.1.101</field>
+      <field name="name">Excedente o D&#233;ficit del Ejercicio&#161;</field>
+      <field name="parent_id" ref="account_cooperativa_341"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_341102">
+      <field name="code">3.4.1.102</field>
+      <field name="name">Excedente o D&#233;ficit de Ejercicios Anteriores</field>
+      <field name="parent_id" ref="account_cooperativa_341"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_341199">
+      <field name="code">3.4.1.199</field>
+      <field name="name">Ajustes ejercicios anteriores</field>
+      <field name="parent_id" ref="account_cooperativa_341"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_4">
+      <field name="code">4</field>
+      <field name="name">Ingresos Brutos</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_41">
+      <field name="code">4.1</field>
+      <field name="name">Ingresos Brutos</field>
+      <field name="parent_id" ref="account_cooperativa_4"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_411">
+      <field name="code">4.1.1</field>
+      <field name="name">Ingresos por Servicios</field>
+      <field name="parent_id" ref="account_cooperativa_41"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_411101">
+      <field name="code">4.1.1.101</field>
+      <field name="name">Ingresos por prestaci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_411"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_income"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_412">
+      <field name="code">4.1.2</field>
+      <field name="name">Ingresos por ventas</field>
+      <field name="parent_id" ref="account_cooperativa_41"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_412101">
+      <field name="code">4.1.2.101</field>
+      <field name="name">Ingresos por ventas</field>
+      <field name="parent_id" ref="account_cooperativa_412"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_income"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_413">
+      <field name="code">4.1.3</field>
+      <field name="name">Otros Ingresos </field>
+      <field name="parent_id" ref="account_cooperativa_41"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_4131">
+      <field name="code">4.1.3.1</field>
+      <field name="name">Otros Ingresos</field>
+      <field name="parent_id" ref="account_cooperativa_413"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_413101">
+      <field name="code">4.1.3.101</field>
+      <field name="name">Ingreso Intereses Bancarios</field>
+      <field name="parent_id" ref="account_cooperativa_413"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_income"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_5">
+      <field name="code">5</field>
+      <field name="name">Costos De Ventas </field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_51">
+      <field name="code">5.1</field>
+      <field name="name">Costos de Venta y de Prestaci&#243;n de Servicios </field>
+      <field name="parent_id" ref="account_cooperativa_5"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_511">
+      <field name="code">5.1.1</field>
+      <field name="name">Costos de Venta y de Prestaci&#243;n de Servicios</field>
+      <field name="parent_id" ref="account_cooperativa_51"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_511101">
+      <field name="code">5.1.1.101</field>
+      <field name="name">Costos de Ventas </field>
+      <field name="parent_id" ref="account_cooperativa_511"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_511102">
+      <field name="code">5.1.1.102</field>
+      <field name="name">Costo de Servicios </field>
+      <field name="parent_id" ref="account_cooperativa_511"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_52">
+      <field name="code">5.2</field>
+      <field name="name">Compras  </field>
+      <field name="parent_id" ref="account_cooperativa_5"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_521">
+      <field name="code">5.2.1</field>
+      <field name="name">Compras de Mercanc&#237;as </field>
+      <field name="parent_id" ref="account_cooperativa_52"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_521101">
+      <field name="code">5.2.1.101</field>
+      <field name="name">Compras de Mercanc&#237;as</field>
+      <field name="parent_id" ref="account_cooperativa_521"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_522">
+      <field name="code">5.2.2</field>
+      <field name="name">Compras de Materias Primas</field>
+      <field name="parent_id" ref="account_cooperativa_52"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_522101">
+      <field name="code">5.2.2.101</field>
+      <field name="name">Compras Materia Prima</field>
+      <field name="parent_id" ref="account_cooperativa_522"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_523">
+      <field name="code">5.2.3</field>
+      <field name="name">Compra de Materiales Indirectos</field>
+      <field name="parent_id" ref="account_cooperativa_52"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_523101">
+      <field name="code">5.2.3.101</field>
+      <field name="name">Compra de Materiales Indirectos</field>
+      <field name="parent_id" ref="account_cooperativa_523"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_526">
+      <field name="code">5.2.6</field>
+      <field name="name">Devoluciones y Descuentos en Compras</field>
+      <field name="parent_id" ref="account_cooperativa_52"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_526101">
+      <field name="code">5.2.6.101</field>
+      <field name="name">Devoluci&#243;n en compras</field>
+      <field name="parent_id" ref="account_cooperativa_526"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_526102">
+      <field name="code">5.2.6.102</field>
+      <field name="name">Descuentos en Compras</field>
+      <field name="parent_id" ref="account_cooperativa_526"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_53">
+      <field name="code">5.3</field>
+      <field name="name">Costo de Producci&#243;n </field>
+      <field name="parent_id" ref="account_cooperativa_5"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_531">
+      <field name="code">5.3.1</field>
+      <field name="name">Materia Prima</field>
+      <field name="parent_id" ref="account_cooperativa_53"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_531101">
+      <field name="code">5.3.1.101</field>
+      <field name="name">Materia Prima</field>
+      <field name="parent_id" ref="account_cooperativa_531"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_532">
+      <field name="code">5.3.2</field>
+      <field name="name">Mano de Obra Directa</field>
+      <field name="parent_id" ref="account_cooperativa_53"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_532101">
+      <field name="code">5.3.2.101</field>
+      <field name="name">Mano de Obra Directa</field>
+      <field name="parent_id" ref="account_cooperativa_532"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_6">
+      <field name="code">6</field>
+      <field name="name">Gastos Operacionales</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_61">
+      <field name="code">6.1</field>
+      <field name="name">Gastos Operacionales</field>
+      <field name="parent_id" ref="account_cooperativa_6"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611">
+      <field name="code">6.1.1</field>
+      <field name="name">Gastos de Personal Administrativo</field>
+      <field name="parent_id" ref="account_cooperativa_61"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101">
+      <field name="code">6.1.1.101</field>
+      <field name="name">Gastos de Personal  Administrativo</field>
+      <field name="parent_id" ref="account_cooperativa_611"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101101">
+      <field name="code">6.1.1.101.101</field>
+      <field name="name">Sueldos </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101102">
+      <field name="code">6.1.1.101.102</field>
+      <field name="name">Salarios</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101103">
+      <field name="code">6.1.1.101.103</field>
+      <field name="name">Suplencias</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101104">
+      <field name="code">6.1.1.101.104</field>
+      <field name="name">Prestaciones Sociales</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101105">
+      <field name="code">6.1.1.101.105</field>
+      <field name="name">Bono Juguetes hijos trabajadores</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101106">
+      <field name="code">6.1.1.101.106</field>
+      <field name="name">Bono por hijos</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101107">
+      <field name="code">6.1.1.101.107</field>
+      <field name="name">Bono Alimenticio</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101108">
+      <field name="code">6.1.1.101.108</field>
+      <field name="name">Horas Extras</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101109">
+      <field name="code">6.1.1.101.109</field>
+      <field name="name">Bono Vacacional </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101110">
+      <field name="code">6.1.1.101.110</field>
+      <field name="name">Servicios Recibidos de terceros </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101111">
+      <field name="code">6.1.1.101.111</field>
+      <field name="name">Aguinaldos Empleados </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101112">
+      <field name="code">6.1.1.101.112</field>
+      <field name="name">Aguinaldos al personal obrero </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101113">
+      <field name="code">6.1.1.101.113</field>
+      <field name="name">Aporte patronal SSO empleados</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101114">
+      <field name="code">6.1.1.101.114</field>
+      <field name="name">Aporte patronal SSO obreros</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101115">
+      <field name="code">6.1.1.101.115</field>
+      <field name="name">Aporte patronal paro forzoso empleados</field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101116">
+      <field name="code">6.1.1.101.116</field>
+      <field name="name">Aporte patronal paro forzoso obreros </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_611101117">
+      <field name="code">6.1.1.101.117</field>
+      <field name="name">Aporte patronal L.P.H </field>
+      <field name="parent_id" ref="account_cooperativa_611101"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612">
+      <field name="code">6.1.2</field>
+      <field name="name">Materiales y Suministros</field>
+      <field name="parent_id" ref="account_cooperativa_61"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102">
+      <field name="code">6.1.2.102</field>
+      <field name="name">Materiales y Suministros</field>
+      <field name="parent_id" ref="account_cooperativa_612"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102101">
+      <field name="code">6.1.2.102.101</field>
+      <field name="name">Combustibles y Lubricantes</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102102">
+      <field name="code">6.1.2.102.102</field>
+      <field name="name">Papeler&#237;a y Art&#237;culos de Oficina</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102103">
+      <field name="code">6.1.2.102.103</field>
+      <field name="name">Libros Revistas y Peri&#243;dicos</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102104">
+      <field name="code">6.1.2.102.104</field>
+      <field name="name">Material de Uso dom&#233;stico y residencial</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102105">
+      <field name="code">6.1.2.102.105</field>
+      <field name="name">Prendas de Vestir</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102106">
+      <field name="code">6.1.2.102.106</field>
+      <field name="name">Materiales de Construcci&#243;n</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102107">
+      <field name="code">6.1.2.102.107</field>
+      <field name="name">Combustibles y Lubricantes</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102108">
+      <field name="code">6.1.2.102.108</field>
+      <field name="name">Papeler&#237;a y Art&#237;culos de Oficina</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102109">
+      <field name="code">6.1.2.102.109</field>
+      <field name="name">Libros Revistas y Peri&#243;dicos</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102110">
+      <field name="code">6.1.2.102.110</field>
+      <field name="name">Material de Uso dom&#233;stico y residencial</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102111">
+      <field name="code">6.1.2.102.111</field>
+      <field name="name">Prendas de Vestir</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102112">
+      <field name="code">6.1.2.102.112</field>
+      <field name="name">Materiales de Construcci&#243;n</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102113">
+      <field name="code">6.1.2.102.113</field>
+      <field name="name">&#218;tiles y Materiales de Aseo</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102114">
+      <field name="code">6.1.2.102.114</field>
+      <field name="name">Repuestos y Accesorios Veh&#237;culos </field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102115">
+      <field name="code">6.1.2.102.115</field>
+      <field name="name">Repuestos y Accesorios Otros Equipos</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102116">
+      <field name="code">6.1.2.102.116</field>
+      <field name="name">Herramientas Menores</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102117">
+      <field name="code">6.1.2.102.117</field>
+      <field name="name">Condecoraciones Ofrendas y Similares</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_612102118">
+      <field name="code">6.1.2.102.118</field>
+      <field name="name">Placas de identificaci&#243;n de veh&#237;culos</field>
+      <field name="parent_id" ref="account_cooperativa_612102"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613">
+      <field name="code">6.1.3</field>
+      <field name="name">Servicios y Mantenimiento</field>
+      <field name="parent_id" ref="account_cooperativa_61"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103">
+      <field name="code">6.1.3.103</field>
+      <field name="name">Servicios y Mantenimientos</field>
+      <field name="parent_id" ref="account_cooperativa_613"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103101">
+      <field name="code">6.1.3.103.101</field>
+      <field name="name">Alquiler de Edificios y Locales</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103102">
+      <field name="code">6.1.3.103.102</field>
+      <field name="name">Alquiles de Equipos de Transportes</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103103">
+      <field name="code">6.1.3.103.103</field>
+      <field name="name">Alquiler de otros equipos</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103104">
+      <field name="code">6.1.3.103.104</field>
+      <field name="name">Electricidad</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103105">
+      <field name="code">6.1.3.103.105</field>
+      <field name="name">Gas</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103106">
+      <field name="code">6.1.3.103.106</field>
+      <field name="name">Agua</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103107">
+      <field name="code">6.1.3.103.107</field>
+      <field name="name">Tel&#233;fono</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103108">
+      <field name="code">6.1.3.103.108</field>
+      <field name="name">Servicios de Comunicaci&#243;n</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103109">
+      <field name="code">6.1.3.103.109</field>
+      <field name="name">Aseo Urbano</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103110">
+      <field name="code">6.1.3.103.110</field>
+      <field name="name">Fletes y Embalajes</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103111">
+      <field name="code">6.1.3.103.111</field>
+      <field name="name">Estacionamientos</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103112">
+      <field name="code">6.1.3.103.112</field>
+      <field name="name">Peajes</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103113">
+      <field name="code">6.1.3.103.113</field>
+      <field name="name">Publicidad y Propagandas</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103114">
+      <field name="code">6.1.3.103.114</field>
+      <field name="name">Primas y Gastos de Seguros  </field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103115">
+      <field name="code">6.1.3.103.115</field>
+      <field name="name">Comisiones y Gastos Bancarios</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103116">
+      <field name="code">6.1.3.103.116</field>
+      <field name="name">Vi&#225;ticos</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103117">
+      <field name="code">6.1.3.103.117</field>
+      <field name="name">Conservaci&#243;n  y/o reparaci&#243;n de equipos de transporte</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103118">
+      <field name="code">6.1.3.103.118</field>
+      <field name="name">Conservaci&#243;n  y/o reparaci&#243;n de otros equipos</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_613103119">
+      <field name="code">6.1.3.103.119</field>
+      <field name="name">Reparaci&#243;n menor de inmuebles</field>
+      <field name="parent_id" ref="account_cooperativa_613103"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_614">
+      <field name="code">6.1.4</field>
+      <field name="name">Depreciaciones y amortizaciones</field>
+      <field name="parent_id" ref="account_cooperativa_61"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_614101">
+      <field name="code">6.1.4.101</field>
+      <field name="name">Depreciaciones </field>
+      <field name="parent_id" ref="account_cooperativa_614"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_614102">
+      <field name="code">6.1.4.102</field>
+      <field name="name">Amortizaciones</field>
+      <field name="parent_id" ref="account_cooperativa_614"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_7">
+      <field name="code">7</field>
+      <field name="name">Otros Egresos</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_71">
+      <field name="code">7.1</field>
+      <field name="name">Otros Egresos</field>
+      <field name="parent_id" ref="account_cooperativa_7"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_711">
+      <field name="code">7.1.1</field>
+      <field name="name">P&#233;rdida por robo de activos</field>
+      <field name="parent_id" ref="account_cooperativa_71"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_8">
+      <field name="code">8</field>
+      <field name="name">Anticipos Societarios</field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_81">
+      <field name="code">8.1</field>
+      <field name="name">Anticipos  Societarios</field>
+      <field name="parent_id" ref="account_cooperativa_8"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_811">
+      <field name="code">8.1.1</field>
+      <field name="name">Anticipos Societarios</field>
+      <field name="parent_id" ref="account_cooperativa_81"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_9">
+      <field name="code">9</field>
+      <field name="name">Cuentas de Orden </field>
+      <field name="parent_id" ref="account_cooperativa_0"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_91">
+      <field name="code">9.1</field>
+      <field name="name">Cuentas de Orden </field>
+      <field name="parent_id" ref="account_cooperativa_9"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_911">
+      <field name="code">9.1.1</field>
+      <field name="name">Cuentas de Orden Deudoras</field>
+      <field name="parent_id" ref="account_cooperativa_91"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_911101">
+      <field name="code">9.1.1.101</field>
+      <field name="name">Proyectos entregados</field>
+      <field name="parent_id" ref="account_cooperativa_911"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_912">
+      <field name="code">9.1.2</field>
+      <field name="name">Cuentas de Orden per contra</field>
+      <field name="parent_id" ref="account_cooperativa_91"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_912101">
+      <field name="code">9.1.2.101</field>
+      <field name="name">Proyectos entregados per contra</field>
+      <field name="parent_id" ref="account_cooperativa_912"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_expense"/>
+    </record>
+    <record model="account.chart.template" id="ve_chart_coop">
+      <field name="name">Venezuela Cooperative - Account</field>
+      <field name="account_root_id" ref="account_cooperativa_0"/>
+      <field name="tax_code_root_id" ref=""/>
+      <field name="bank_account_view_id" ref="account_cooperativa_111201"/>
+      <field name="property_account_receivable" ref=""/>
+      <field name="property_account_payable" ref=""/>
+      <field name="property_account_expense_categ" ref=""/>
+      <field name="property_account_income_categ" ref=""/>
+      <field name="property_account_income_opening" ref=""/>
+      <field name="property_account_expense_opening" ref=""/>
+      <field name="complete_tax_set" eval="False"/>
+    </record>
+  </data>
+</openerp>
