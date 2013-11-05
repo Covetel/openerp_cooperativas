@@ -281,6 +281,8 @@ def insertar_plan_cuentas(source_table, sock, uid):
                             code = code+"."+str(ac)
                             cuenta.update({'code':code})
 
+                            tipo_cuenta(sock, uid, cuenta)
+
                             if not code in codes:
                                 cuenta.update({'id' : cuenta['code'].replace('.', '')})
                                 crear_cuenta(c, sock, uid, cuenta)
@@ -305,7 +307,6 @@ def hacer_xml(sock, uid):
                    'code': code,
                    'name': name,
                 }
-
                 tipo_cuenta(sock, uid, cuenta)
 
                 match = cuenta in cuentas
@@ -325,6 +326,8 @@ def hacer_xml(sock, uid):
                     else:
                         code = code+"."+str(ac)
                         cuenta.update({'code':code})
+
+                        tipo_cuenta(sock, uid, cuenta)
 
                         if not code in codes:
                             if cuenta['parent_id'] == '':
