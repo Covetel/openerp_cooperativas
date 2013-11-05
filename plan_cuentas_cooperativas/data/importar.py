@@ -216,9 +216,9 @@ def buscar_cuentas(sock, uid, code):
 def modificar_cuenta(sock, uid, ids, values):
     account_id = sock.execute(dbname, uid, pwd, 'account.account', 'write', ids, values)
 
-def listar_tipo_cuentas(sock, uid):
+def listar_tipo_cuentas(sock, uid, code):
     fields = ['name', 'code']
-    buscar = [('name','=', '')]
+    buscar = [('name','=', code)]
     cod = sock.execute(dbname, uid, pwd, 'account.account.type', 'search', buscar)
     for i in cod:
         types = sock.execute(dbname, uid, pwd, 'account.account.type', 'read', i, fields)
@@ -312,6 +312,7 @@ def hacer_xml(sock, uid):
 
                     if not match_code:
                         cuentas.append(cuenta)
+
                         codes.append(code)
                         ac = 101
                     else:
@@ -335,7 +336,7 @@ def main():
 
     #Lista los tipos de cuenta
     if c == "listar":
-        listar_tipo_cuentas(sock, uid)
+        listar_tipo_cuentas(sock, uid, '')
 
     #Lista la cuenta pasada como parametro
     if c == "cuentas":
