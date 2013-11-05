@@ -87,6 +87,10 @@ def _xml_record_type(model_type, data):
     field.set("name", "report_type")
     field.text = model_type[2]
 
+def _get_user_type_code(code):
+    user_type_names = { 12 : 'asset', 6 : 'asset', 4 : 'bank', 5 : 'cash', 16 : 'check', 15 : 'equity', 9 : 'expense', 11 : 'expense', 8 : 'income', 13 : 'liability', 7 : 'liability', 3 : 'payable', 2 : 'receivable', 14 : 'tax', 10 : 'view', 1 : 'view'}
+    return user_type_names[code]
+
 def _xml_record_template(cuenta, data):
     record = etree.SubElement(data, "record")
     record.set("model", "account.account.template")
@@ -115,7 +119,7 @@ def _xml_record_template(cuenta, data):
 
     field = etree.SubElement(record, "field")
     field.set("name", "user_type")
-    field.set("ref", "account_type_" + cuenta["type"])
+    field.set("ref", "account_type_" + _get_user_type_code(cuenta["user_type"]))
 
 def _write_parents_xml(cuentas, label_data):
     for i in cuentas:
