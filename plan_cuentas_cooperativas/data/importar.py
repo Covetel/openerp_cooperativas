@@ -59,80 +59,90 @@ def get_parent_id(sock, uid, code):
     match = re.match("(^.*)(\.\d*)", code)
     fields = ['id']
     buscar = [('code','=', match.group(1))]
-    cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
-    parent_id = sock.execute(dbname, uid, pwd, 'account.account', 'read', cod, fields)
     try:
+        cod = sock.execute(dbname, uid, pwd, 'account.account', 'search', buscar)
+        parent_id = sock.execute(dbname, uid, pwd, 'account.account', 'read', cod, fields)
         return parent_id[0]['id']
-    except IndexError:
-        return []
+    except (IndexError, xmlrpclib.Fault):
+        code_split = code.split(".")
+        rigthside = code_split.pop()
+
+        leftside = "".join(code_split)
+
+        if leftside:
+            pid = leftside
+        else:
+            pid = 0
+        return pid
+
 
 #Define los tipos de cuentas iniciales
 def tipo_cuenta(sock, uid, cuenta):
     #Clasificación de Cuentas padre
     if re.match("^[0123456789]", cuenta['code']):
-        cuenta.update({'type': 'view', 'user_type' : 1, 'parent_id' : '0', 'reconcile' : True})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'view', 'user_type' : 1, 'parent_id' : '', 'reconcile' : True})
     if re.match("(^[13].\d|[13].\d.\d)", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view', 'user_type' : 12, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'view', 'user_type' : 12, 'parent_id' : parent_id})
     if re.match("^2.\d|2.\d.\d|2.\d.\d.\d.*", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': "view", 'user_type' : 13, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': "view", 'user_type' : 13, 'parent_id' : parent_id})
     if re.match("(^4.\d|4.\d\d|4.\d.\d.\d.*)", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view', 'user_type' : 10, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'view', 'user_type' : 10, 'parent_id' : parent_id})
     if re.match("(^[56789].\d)", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view', 'user_type' : 11, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'view', 'user_type' : 11, 'parent_id' : parent_id})
     if re.match("^[569].\d.\d|[569].\d.\d.\d.*", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'view', 'user_type' : 11, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'view', 'user_type' : 11, 'parent_id' : parent_id})
     if re.match("^[78].\d.\d", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'other', 'user_type' : 9, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9, 'parent_id' : parent_id})
     if re.match("^[13].\d.\d.\d.*", cuenta['code']):
         parent_id = get_parent_id(sock, uid, cuenta['code'])
-        cuenta.update({'type': 'other', 'user_type' : 6, 'parent_id' : parent_id})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 6, 'parent_id' : parent_id})
 
     #Clasificación de Cuentas hijas
     #Activos
     if re.match("(1.1.3.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'receivable', 'user_type' : 2})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'receivable', 'user_type' : 2})
     if re.match("(1.1.1.1\d\d)", cuenta['code']):
-        cuenta.update({'type': 'liquidity', 'user_type' : 5})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'liquidity', 'user_type' : 5})
     if re.match("(1.1.1.2\d\d)", cuenta['code']):
-        cuenta.update({'type': 'liquidity', 'user_type' : 4})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'liquidity', 'user_type' : 4})
     #Pasivos
     if re.match("(2.1.2.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'payable', 'user_type' : 3})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'payable', 'user_type' : 3})
     if re.match("(2.1.1.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 7})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 7})
     if re.match("(2.[2-5].1.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 7})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 7})
     #Patrimonio
     if re.match("(3.\d.\d.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 15})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 15})
     #Ingresos
     if re.match("(4.\d.\d.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 8})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 8})
     #Compras
     if re.match("(5.\d.\d.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 9})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9})
     #Gastos
     if re.match("(6.1.[1-3].\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'view', 'user_type' : 11})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'view', 'user_type' : 11})
     if re.match("(6.1.[1-3].\d\d\d.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 9})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9})
     if re.match("(6.1.4.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 9})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9})
     #Otros Egresos
     if re.match("(7.\d.\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 9})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9})
     #Anticipos Societarios
     if re.match("(8.\d.\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 9})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9})
     #Cuentas de Orden
     if re.match("(9.\d.\d.\d\d\d)", cuenta['code']):
-        cuenta.update({'type': 'other', 'user_type' : 9})
+        cuenta.update({'id' : cuenta['code'].replace('.', ''), 'type': 'other', 'user_type' : 9})
 
     return cuenta
 
