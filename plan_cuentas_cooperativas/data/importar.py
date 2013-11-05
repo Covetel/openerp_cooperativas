@@ -314,6 +314,9 @@ def hacer_xml(sock, uid):
                     match_code = code in codes
 
                     if not match_code:
+                        if cuenta['parent_id'] == '':
+                            cuenta.update({'parent_id' : 0})
+
                         cuentas.append(cuenta)
 
                         codes.append(code)
@@ -323,6 +326,9 @@ def hacer_xml(sock, uid):
                         cuenta.update({'code':code})
 
                         if not code in codes:
+                            if cuenta['parent_id'] == '':
+                                cuenta.update({'parent_id' : 0})
+
                             cuentas.append(cuenta)
                             codes.append(code)
                             ac = ac + 1
