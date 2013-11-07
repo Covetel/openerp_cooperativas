@@ -10,7 +10,6 @@ pp = pprint.PrettyPrinter(indent=4)
 
 def _xml_record_chart(info, data):
     record = etree.SubElement(data, "record")
-#    record = etree.Element("record")
     record.set("model", "account.chart.template")
     record.set("id", info["id"])
 
@@ -58,6 +57,44 @@ def _xml_record_chart(info, data):
     field.set("name", "complete_tax_set")
     field.set("eval", info["complete_tax_set"])
 
+def _get_user_type_code(code):
+    user_type_names = { 12 : 'asset', 6 : 'asset', 4 : 'bank', 5 : 'cash', 16 : 'check', 15 : 'equity', 9 : 'expense', 11 : 'expense', 8 : 'income', 13 : 'liability', 7 : 'liability', 3 : 'payable', 2 : 'receivable', 14 : 'tax', 10 : 'view', 1 : 'view'}
+    return user_type_names[code]
+
+def _xml_record_template(cuenta, data):
+    record = etree.SubElement(data, "record")
+    record.set("model", "account.account.template")
+    record.set("id", "account_cooperativa_" + cuenta['id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "code")
+    field.text = cuenta['code']
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "name")
+    field.text = str(cuenta['name']).decode('utf8')
+
+    if str(cuenta['code']) != "0":
+        field = etree.SubElement(record, "field")
+        field.set("name", "parent_id")
+        field.set("ref", "account_cooperativa_" + str(cuenta['parent_id']))
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "reconcile")
+    field.set("eval", str(cuenta['reconcile']))
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "type")
+    field.text = str(cuenta['type'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "user_type")
+    field.set("ref", "account_type_" + _get_user_type_code(cuenta["user_type"]))
+
+def _write_parents_xml(cuentas, label_data):
+    for i in cuentas:
+        _xml_record_template(i, label_data)
+
 def _xml_record_type(model_type, data):
     name_fix = lambda x: x.replace(" ", "_").lower()
     record = etree.SubElement(data, "record")
@@ -87,43 +124,79 @@ def _xml_record_type(model_type, data):
     field.set("name", "report_type")
     field.text = model_type[2]
 
-def _get_user_type_code(code):
-    user_type_names = { 12 : 'asset', 6 : 'asset', 4 : 'bank', 5 : 'cash', 16 : 'check', 15 : 'equity', 9 : 'expense', 11 : 'expense', 8 : 'income', 13 : 'liability', 7 : 'liability', 3 : 'payable', 2 : 'receivable', 14 : 'tax', 10 : 'view', 1 : 'view'}
-    return user_type_names[code]
-
-def _xml_record_template(cuenta, data):
+def _tax_template(tax, data):
     record = etree.SubElement(data, "record")
-    record.set("model", "account.account.template")
-    record.set("id", "account_cooperativa_" + cuenta['id'])
+    record.set("model", "account.tax.template")
+    record.set("id", "tax_cooperativa_" + tax['id'])
 
     field = etree.SubElement(record, "field")
-    field.set("name", "code")
-    field.text = cuenta['code']
+    field.set("name", "chart_template_id")
+    field.set("ref", tax['ref'])
 
     field = etree.SubElement(record, "field")
     field.set("name", "name")
-    field.text = str(cuenta['name']).decode('utf8')
+    field.text = str(tax['name']).decode('utf8')
 
-    if str(cuenta['code']) != "0":
-        field = etree.SubElement(record, "field")
-        field.set("name", "parent_id")
-        field.set("ref", "account_cooperativa_" + str(cuenta['parent_id']))
+    field = etree.SubElement(record, "field")
+    field.set("name", "amount")
+    field.set("eval", tax["eval"])
     
     field = etree.SubElement(record, "field")
-    field.set("name", "reconcile")
-    field.set("eval", str(cuenta['reconcile']))
-
-    field = etree.SubElement(record, "field")
     field.set("name", "type")
-    field.text = str(cuenta['type'])
+    field.text = tax['type']
 
     field = etree.SubElement(record, "field")
-    field.set("name", "user_type")
-    field.set("ref", "account_type_" + _get_user_type_code(cuenta["user_type"]))
+    field.set("name", "account_collected_id")
+    field.set("ref", tax['account_collected_id'])
 
-def _write_parents_xml(cuentas, label_data):
-    for i in cuentas:
-        _xml_record_template(i, label_data)
+    field = etree.SubElement(record, "field")
+    field.set("name", "account_paid_id")
+    field.set("ref", tax['account_paid_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "base_code_id")
+    field.set("ref", tax['base_code_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "tax_code_id")
+    field.set("ref", tax['tax_code_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "ref_base_code_id")
+    field.set("ref", tax['ref_base_code_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "ref_tax_code_id")
+    field.set("ref", tax['ref_tax_code_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "type_tax_use")
+    field.text = tax['type_tax_use']
+
+def _tax_code_template(codigos_de_impuestos, data):
+    record = etree.SubElement(data, "record")
+    record.set("model", "account.tax.code.template")
+    record.set("id", codigos_de_impuestos['id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "name")
+    field.text = codigos_de_impuestos['name']
+
+    try:
+        if codigos_de_impuestos['parent_id']:
+            field = etree.SubElement(record, "field")
+            field.set("name", "parent_id")
+            field.set("ref", codigos_de_impuestos['parent_id'])
+    except KeyError:
+        print "No tiene llave parent_id"
+
+    try:
+        if codigos_de_impuestos['sign']:
+            field = etree.SubElement(record, "field")
+            field.set("name", "sign")
+            field.set("eval", codigos_de_impuestos['sign'])
+    except KeyError:
+        print "No tiene llave sign"
 
 def main(cuentas):
     openerp = etree.Element("openerp")
@@ -145,21 +218,60 @@ def main(cuentas):
 
     _write_parents_xml(cuentas, data)
 
+    cuentas_de_impuesto = [
+            {'id' : 'iva', 'code' : '7.1.2', 'parent_id' : '71', 'name' : 'IVA', 'type' : 'other', 'user_type' : 7, 'reconcile' : 'True'},
+    ]
+
+    _write_parents_xml(cuentas_de_impuesto, data)
+
+    codigos_de_impuestos =[
+        #Impuesto de Facturas
+            {"id" : "tax_code_coop", "name" : "Impuestos Cooperativas"},
+            {"id" : "tax_code_balance_coop", "name" : "Balance de Impuestos", "parent_id" : "tax_code_coop"},
+            #Impuesto Recibido
+            {"id" : "tax_code_input" ,  "name" : "Impuesto Recibido", "parent_id" : "tax_code_balance_coop", "sign" : "-1"},
+            {"id" : "tax_code_input_v", "name" : "Impuesto Recibido por Ventas",  "parent_id" : "tax_code_input"},
+            #Impuesto Pagado
+            {"id" : "tax_code_output" ,  "name" : "Impuesto Pagado", "parent_id" : "tax_code_balance_coop"},
+            {"id" : "tax_code_output_c", "name" : "Impuesto Pagado por Compras",  "parent_id" : "tax_code_input"},
+        #Base de Impuestos
+            {"id" : "tax_code_base_coop", "name" : "Base de Impuestos", "parent_id" : "tax_code_coop"},
+            #Base impuesto por compras
+            {"id" : "tax_code_compras", "name" : "Impuesto por Compras", "parent_id" : "tax_code_base_coop"},
+            {"id" : "tax_code_compras_12", "name" : "Impuesto 12%", "parent_id" : "tax_code_compras"},
+            #Base de impuesto por ventas
+            {"id" : "tax_code_ventas", "name" : "Impuesto por Ventas", "parent_id" : "tax_code_base_coop"},
+            {"id" : "tax_code_ventas_0", "name" : "Impuesto 0%", "parent_id" : "tax_code_ventas"},
+    ]
+
+    for cdi in codigos_de_impuestos:
+        _tax_code_template(cdi, data)
+
     info = {
         "id" : "ve_chart_coop",
         "name" : "Venezuela Cooperative - Account",
         "account_root_id" : "account_cooperativa_0",
-        "tax_code_root_id" : "",
+        "tax_code_root_id" : "tax_code_coop",
         "bank_account_view_id" : "account_cooperativa_111201",
-        "property_account_receivable" : "",
-        "property_account_payable" : "",
-        "property_account_expense_categ" : "",
-        "property_account_income_categ" : "",
+        "property_account_receivable" : "account_cooperativa_113101",
+        "property_account_payable" : "account_cooperativa_212106",
+        "property_account_expense_categ" : "account_cooperativa_511101",
+        "property_account_income_categ" : "account_cooperativa_412101",
         "property_account_income_opening" : "",
         "property_account_expense_opening" : "",
-        "complete_tax_set" : "False"
+        "complete_tax_set" : "True"
     }
     _xml_record_chart(info, data)
+
+    impuestos = [
+            #Impuesto 12%
+            {'id' : "imp_compras_12", 'ref' : "ve_chart_coop", 'code' : 'impuesto_compras_12', 'name' : 'Impuesto para compras 12%', "eval" : "0.12", "type" : "percent", "account_collected_id" : "account_cooperativa_iva", "account_paid_id" : "account_cooperativa_iva", "base_code_id" : "tax_code_compras_12", "tax_code_id" : "tax_code_output_c", "ref_base_code_id" : "tax_code_compras_12", "ref_tax_code_id" : "tax_code_output_c", "type_tax_use" : "purchase"},
+            #Impuesto 0%
+            {'id' : "imp_ventas_0", 'ref' : "ve_chart_coop", 'code' : 'impuesto_ventas_0', 'name' : 'Impuesto para ventas 0%', "eval" : "0", "type" : "percent", "account_collected_id" : "account_cooperativa_iva", "account_paid_id" : "account_cooperativa_iva", "base_code_id" : "tax_code_ventas_0", "tax_code_id" : "tax_code_input_v", "ref_base_code_id" : "tax_code_ventas_0", "ref_tax_code_id" : "tax_code_input_v", "type_tax_use" : "sale"},
+    ]
+
+    for imp in impuestos:
+        _tax_template(imp, data)
 
     etree.dump(openerp)
     xml_export.write(etree.tostring(openerp, pretty_print=True))
