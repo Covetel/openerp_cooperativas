@@ -188,7 +188,7 @@ def _tax_code_template(codigos_de_impuestos, data):
             field.set("name", "parent_id")
             field.set("ref", codigos_de_impuestos['parent_id'])
     except KeyError:
-        print "No tiene llave parent_id"
+        pass
 
     try:
         if codigos_de_impuestos['sign']:
@@ -196,7 +196,37 @@ def _tax_code_template(codigos_de_impuestos, data):
             field.set("name", "sign")
             field.set("eval", codigos_de_impuestos['sign'])
     except KeyError:
-        print "No tiene llave sign"
+        pass
+
+def _imp_fiscal_template(imp_fiscal, data):
+    record = etree.SubElement(data, "record")
+    record.set("model", "account.fiscal.position.tax.template")
+    record.set("id", imp_fiscal['id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "position_id")
+    field.set("ref", imp_fiscal['position_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "tax_src_id")
+    field.set("ref", imp_fiscal['tax_src_id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "tax_dest_id")
+    field.set("ref", imp_fiscal['tax_dest_id'])
+
+def _fiscal_mapping_template(fiscal_mapping, data):
+    record = etree.SubElement(data, "record")
+    record.set("model", "account.fiscal.position.template")
+    record.set("id", fiscal_mapping['id'])
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "name")
+    field.text = fiscal_mapping['name']
+
+    field = etree.SubElement(record, "field")
+    field.set("name", "chart_template_id")
+    field.set("ref", fiscal_mapping['chart_template_id'])
 
 def main(cuentas):
     openerp = etree.Element("openerp")
@@ -272,6 +302,19 @@ def main(cuentas):
 
     for imp in impuestos:
         _tax_template(imp, data)
+
+    #Fiscal Mapping
+    fiscal_mapping = {"id" : "imp_fiscal_coop", "name" : "Impuesto Normal", "chart_template_id" : "ve_chart_coop"}
+
+    _fiscal_mapping_template(fiscal_mapping, data)
+
+    #Fiscal Taxes
+    imp_fiscal = [
+            {"id" : "imp_normal_coop", "position_id" : "imp_fiscal_coop", "tax_src_id" : "tax_cooperativa_imp_compras_12", "tax_dest_id" : "tax_cooperativa_imp_ventas_0" },
+    ]
+
+    for imf in imp_fiscal:
+        _imp_fiscal_template(imf, data)
 
     etree.dump(openerp)
     xml_export.write(etree.tostring(openerp, pretty_print=True))
