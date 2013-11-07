@@ -1821,18 +1821,105 @@
       <field name="type">other</field>
       <field name="user_type" ref="account_type_expense"/>
     </record>
+    <record model="account.account.template" id="account_cooperativa_iva">
+      <field name="code">7.1.2</field>
+      <field name="name">IVA</field>
+      <field name="parent_id" ref="account_cooperativa_71"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_coop">
+      <field name="name">Impuestos Cooperativas</field>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_balance_coop">
+      <field name="name">Balance de Impuestos</field>
+      <field name="parent_id" ref="tax_code_coop"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_input">
+      <field name="name">Impuesto Recibido</field>
+      <field name="parent_id" ref="tax_code_balance_coop"/>
+      <field name="sign" eval="-1"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_input_v">
+      <field name="name">Impuesto Recibido por Ventas</field>
+      <field name="parent_id" ref="tax_code_input"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_output">
+      <field name="name">Impuesto Pagado</field>
+      <field name="parent_id" ref="tax_code_balance_coop"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_output_c">
+      <field name="name">Impuesto Pagado por Compras</field>
+      <field name="parent_id" ref="tax_code_input"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_base_coop">
+      <field name="name">Base de Impuestos</field>
+      <field name="parent_id" ref="tax_code_coop"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_compras">
+      <field name="name">Impuesto por Compras</field>
+      <field name="parent_id" ref="tax_code_base_coop"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_compras_12">
+      <field name="name">Impuesto 12%</field>
+      <field name="parent_id" ref="tax_code_compras"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_ventas">
+      <field name="name">Impuesto por Ventas</field>
+      <field name="parent_id" ref="tax_code_base_coop"/>
+    </record>
+    <record model="account.tax.code.template" id="tax_code_ventas_0">
+      <field name="name">Impuesto 0%</field>
+      <field name="parent_id" ref="tax_code_ventas"/>
+    </record>
     <record model="account.chart.template" id="ve_chart_coop">
       <field name="name">Venezuela Cooperative - Account</field>
       <field name="account_root_id" ref="account_cooperativa_0"/>
-      <field name="tax_code_root_id" ref=""/>
+      <field name="tax_code_root_id" ref="tax_code_coop"/>
       <field name="bank_account_view_id" ref="account_cooperativa_111201"/>
-      <field name="property_account_receivable" ref=""/>
-      <field name="property_account_payable" ref=""/>
-      <field name="property_account_expense_categ" ref=""/>
-      <field name="property_account_income_categ" ref=""/>
+      <field name="property_account_receivable" ref="account_cooperativa_113101"/>
+      <field name="property_account_payable" ref="account_cooperativa_212106"/>
+      <field name="property_account_expense_categ" ref="account_cooperativa_511101"/>
+      <field name="property_account_income_categ" ref="account_cooperativa_412101"/>
       <field name="property_account_income_opening" ref=""/>
       <field name="property_account_expense_opening" ref=""/>
-      <field name="complete_tax_set" eval="False"/>
+      <field name="complete_tax_set" eval="True"/>
+    </record>
+    <record model="account.tax.template" id="tax_cooperativa_imp_compras_12">
+      <field name="chart_template_id" ref="ve_chart_coop"/>
+      <field name="name">Impuesto para compras 12%</field>
+      <field name="amount" eval="0.12"/>
+      <field name="type">percent</field>
+      <field name="account_collected_id" ref="account_cooperativa_iva"/>
+      <field name="account_paid_id" ref="account_cooperativa_iva"/>
+      <field name="base_code_id" ref="tax_code_compras_12"/>
+      <field name="tax_code_id" ref="tax_code_output_c"/>
+      <field name="ref_base_code_id" ref="tax_code_compras_12"/>
+      <field name="ref_tax_code_id" ref="tax_code_output_c"/>
+      <field name="type_tax_use">purchase</field>
+    </record>
+    <record model="account.tax.template" id="tax_cooperativa_imp_ventas_0">
+      <field name="chart_template_id" ref="ve_chart_coop"/>
+      <field name="name">Impuesto para ventas 0%</field>
+      <field name="amount" eval="0"/>
+      <field name="type">percent</field>
+      <field name="account_collected_id" ref="account_cooperativa_iva"/>
+      <field name="account_paid_id" ref="account_cooperativa_iva"/>
+      <field name="base_code_id" ref="tax_code_ventas_0"/>
+      <field name="tax_code_id" ref="tax_code_input_v"/>
+      <field name="ref_base_code_id" ref="tax_code_ventas_0"/>
+      <field name="ref_tax_code_id" ref="tax_code_input_v"/>
+      <field name="type_tax_use">sale</field>
+    </record>
+    <record model="account.fiscal.position.template" id="imp_fiscal_coop">
+      <field name="name">Impuesto Normal</field>
+      <field name="chart_template_id" ref="ve_chart_coop"/>
+    </record>
+    <record model="account.fiscal.position.tax.template" id="imp_normal_coop">
+      <field name="position_id" ref="imp_fiscal_coop"/>
+      <field name="tax_src_id" ref="tax_cooperativa_imp_compras_12"/>
+      <field name="tax_dest_id" ref="tax_cooperativa_imp_ventas_0"/>
     </record>
   </data>
 </openerp>
