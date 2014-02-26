@@ -15,7 +15,7 @@ xml - Crea xml con las cuentas y su clasificación
 """
 
 import xmlrpclib, sys, settings, re
-import convertocsv
+import convertcsv
 
 c = "";
 cc = "";
@@ -338,7 +338,7 @@ def hacer_xml(sock, uid):
                             codes.append(code)
                             ac = ac + 1
 
-    convertocsv.main(cuentas)
+    convertcsv.main(cuentas)
 
 
 def main():
