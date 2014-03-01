@@ -263,7 +263,7 @@ def main(cuentas):
             {"id" : "tax_code_input_v", "name" : "Impuesto Recibido por Ventas",  "parent_id" : "tax_code_input"},
             #Impuesto Pagado
             {"id" : "tax_code_output" ,  "name" : "Impuesto Pagado", "parent_id" : "tax_code_balance_coop"},
-            {"id" : "tax_code_output_c", "name" : "Impuesto Pagado por Compras",  "parent_id" : "tax_code_input"},
+            {"id" : "tax_code_output_c", "name" : "Impuesto Pagado por Compras",  "parent_id" : "tax_code_output"},
         #Base de Impuestos
             {"id" : "tax_code_base_coop", "name" : "Base de Impuestos", "parent_id" : "tax_code_coop"},
             #Base impuesto por compras
@@ -304,7 +304,7 @@ def main(cuentas):
         _tax_template(imp, data)
 
     #Fiscal Mapping
-    fiscal_mapping = {"id" : "imp_fiscal_coop", "name" : "Impuesto Normal", "chart_template_id" : "ve_chart_coop"}
+    fiscal_mapping = {"id" : "imp_fiscal_coop", "name" : "Impuesto Normal Cooperativas", "chart_template_id" : "ve_chart_coop"}
 
     _fiscal_mapping_template(fiscal_mapping, data)
 
