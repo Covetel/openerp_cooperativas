@@ -1851,7 +1851,7 @@
     </record>
     <record model="account.tax.code.template" id="tax_code_output_c">
       <field name="name">Impuesto Pagado por Compras</field>
-      <field name="parent_id" ref="tax_code_input"/>
+      <field name="parent_id" ref="tax_code_output"/>
     </record>
     <record model="account.tax.code.template" id="tax_code_base_coop">
       <field name="name">Base de Impuestos</field>
@@ -1913,7 +1913,7 @@
       <field name="type_tax_use">sale</field>
     </record>
     <record model="account.fiscal.position.template" id="imp_fiscal_coop">
-      <field name="name">Impuesto Normal</field>
+      <field name="name">Impuesto Normal Cooperativas</field>
       <field name="chart_template_id" ref="ve_chart_coop"/>
     </record>
     <record model="account.fiscal.position.tax.template" id="imp_normal_coop">
