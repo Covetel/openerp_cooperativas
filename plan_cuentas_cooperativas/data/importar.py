@@ -1,4 +1,4 @@
-# *-* coding=utf-8 *-* 
+# *-* coding=utf-8 *-*
 """ Instrucciones
 Ejecutar:
 
@@ -30,6 +30,7 @@ username = settings.username
 pwd = settings.pwd
 dbname = settings.dbname
 source_table = open("plan_cuentas.csv")
+cuentas_csv = source_table.readlines()[0:]
 
 cuentas = []
 codes = []
@@ -186,6 +187,8 @@ def actualizar_cuenta(sock, uid):
         if re.match("(6.1.4.\d\d\d)", cuenta['code']):
             values = {'type': 'other', 'user_type' : 9}
         #Otros Egresos
+        if re.match("(7.1.2)", cuenta['code']):
+            values = {'type': 'other', 'user_type' : 7}
         if re.match("(7.\d.\d)", cuenta['code']):
             values = {'type': 'other', 'user_type' : 9}
         #Anticipos Societarios
@@ -236,10 +239,77 @@ def detalle_cuenta(sock, uid, code):
 
     return cod
 
-def insertar_plan_cuentas(source_table, sock, uid):
+def impuestos(sock, uid):
+
+    #Creo la cuenta para el IVA en el plan de cuentas
+    cuentas_csv.append("IVA,7.1.2")
+
+    iva_account = {
+            'code': "7.1.2",
+            'name': "IVA",
+    }
+
+    tipo_cuenta(sock, uid, iva_account)
+
+    code_find = buscar_cuentas(sock, uid, iva_account['code'])
+
+    if not(code_find):
+        iva_account_id = crear_cuenta(c, sock, uid, iva_account)
+
+    iva_account_id = 470
+
+    #Creo los codigos de impuesto
+    imp_coop = {"name" : "Impuestos Cooperativas"}
+    cod_imp_id = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', imp_coop)
+
+    balance_imp = {"name" : "Balance de Impuestos", "parent_id" : cod_imp_id}
+    bal_imp_id = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', balance_imp)
+
+    base_imp = {"name" : "Base de Impuestos", "parent_id" : cod_imp_id}
+    bas_imp_id = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', base_imp)
+
+    rec_imp = {"name" : "Impuesto Recibido", "parent_id" : bal_imp_id, "sign" : "-1"}
+    rec_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', rec_imp)
+
+    rec_sale_imp =  {"name" : "Impuesto Recibido por Ventas", "parent_id": rec_imp_cod }
+    r_imp_s_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', rec_sale_imp)
+
+    paid_imp = {"name" : "Impuesto Pagado", "parent_id" : bal_imp_id}
+    paid_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', paid_imp)
+
+    paid_purchase_imp = {"name" : "Impuesto Pagado por Compras",  "parent_id" : paid_imp_cod}
+    paid_purchase_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', paid_purchase_imp)
+
+    purchase_imp = {"name" : "Impuesto por Compras", "parent_id" : bas_imp_id}
+    purchase_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', purchase_imp)
+
+    purchase_tw_imp = {"name" : "Impuesto 12%", "parent_id" : purchase_imp_cod}
+    purchase_tw_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', purchase_tw_imp)
+
+    sale_imp = {"name" : "Impuesto por Ventas", "parent_id" : bas_imp_id}
+    sale_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', sale_imp)
+
+    sale_cero_imp = {"name" : "Impuesto 0%", "parent_id" : sale_imp_cod}
+    sale_cero_imp_cod = sock.execute(dbname, uid, pwd, 'account.tax.code', 'create', sale_cero_imp)
+
+    imp_tw = {'name' : 'Impuesto para compras 12%', 'amount' : '0.12', 'type' : 'percent', 'account_collected_id' : iva_account_id, 'account_paid_id' : iva_account_id, 'base_code_id' : purchase_tw_imp_cod, 'tax_code_id' : paid_purchase_imp_cod, 'ref_base_code_id' : purchase_tw_imp_cod, 'ref_tax_code_id' : paid_purchase_imp_cod, 'type_tax_use' : 'purchase', 'company_id': 1, 'active': True}
+    imp_tw_id = sock.execute(dbname, uid, pwd, 'account.tax', 'create', imp_tw)
+
+    imp_cero = {'name' : 'Impuesto para ventas 0%', 'amount' : '0', 'type' : 'percent', 'account_collected_id' : iva_account_id, 'account_paid_id' : iva_account_id, 'base_code_id' : sale_cero_imp_cod, 'tax_code_id' : r_imp_s_cod, 'ref_base_code_id' : sale_cero_imp_cod, 'ref_tax_code_id' : r_imp_s_cod, 'type_tax_use' : 'sale', 'company_id': 1, 'active': True}
+    imp_cero_id = sock.execute(dbname, uid, pwd, 'account.tax', 'create', imp_cero)
+
+    #Fiscal Position
+    fiscal_position = {'id' : 'imp_fiscal_coop', 'name' : 'Impuesto Normal Cooperativas', 'company_id' : 1, 'active': True }
+    fiscal_pos_id = sock.execute(dbname, uid, pwd, 'account.fiscal.position', 'create', fiscal_position)
+
+    #Fiscal Taxes
+    imp_fiscal = {'position_id' : fiscal_pos_id, 'tax_src_id' : imp_tw_id, 'tax_dest_id' : imp_cero_id }
+    imp_f_id = sock.execute(dbname, uid, pwd, 'account.fiscal.position.tax', 'create', imp_fiscal)
+
+def insertar_plan_cuentas(cuentas_csv, sock, uid):
     global ac
 
-    for line in source_table.readlines()[0:]:
+    for line in cuentas_csv:
             if True:
 
                 l = line.split(",")
@@ -270,7 +340,7 @@ def insertar_plan_cuentas(source_table, sock, uid):
                     #Inserta las cuentas desde el csv
                     if not match:
                         match_code = code in codes
-                        
+
                         if not match_code:
                             crear_cuenta(c, sock, uid, cuenta)
 
@@ -291,10 +361,12 @@ def insertar_plan_cuentas(source_table, sock, uid):
                                 codes.append(code)
                                 ac = ac + 1
 
+    impuestos(sock, uid)
+
 def hacer_xml(sock, uid):
     global ac, cuentas
 
-    for line in source_table.readlines()[0:]:
+    for line in cuentas_csv:
             if True:
 
                 l = line.split(",")
@@ -346,7 +418,7 @@ def main():
 
     #Inserta el plan de cuentas en OpenERP
     if c == "crear":
-        insertar_plan_cuentas(source_table, sock, uid)
+        insertar_plan_cuentas(cuentas_csv, sock, uid)
 
     #Lista los tipos de cuenta
     if c == "listar":
