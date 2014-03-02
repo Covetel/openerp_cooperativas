@@ -13,7 +13,7 @@
     'data' : [
         'data/data_account_type.xml',
         'data/venezuela_cooperatives_chart.xml',
-        'data/chart_cooperatives_wizard.xml',
+        'data/cooperatives_chart_wizard.xml',
     ],
     'auto_install' : False,
     'installable' : True,
