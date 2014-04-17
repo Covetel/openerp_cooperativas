@@ -950,6 +950,14 @@
       <field name="type">other</field>
       <field name="user_type" ref="account_type_equity"/>
     </record>
+    <record model="account.account.template" id="account_cooperativa_322102">
+      <field name="code">3.2.2.102</field>
+      <field name="name">Otros Fondos y Apartados</field>
+      <field name="parent_id" ref="account_cooperativa_322"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_equity"/>
+    </record>
     <record model="account.account.template" id="account_cooperativa_33">
       <field name="code">3.3</field>
       <field name="name">Donaciones </field>
