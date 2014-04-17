@@ -686,6 +686,14 @@
       <field name="type">payable</field>
       <field name="user_type" ref="account_type_payable"/>
     </record>
+    <record model="account.account.template" id="account_cooperativa_212110">
+      <field name="code">2.1.2.110</field>
+      <field name="name">Cheques en Tránsito</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
     <record model="account.account.template" id="account_cooperativa_22">
       <field name="code">2.2</field>
       <field name="name">Pasivo a Largo Plazo</field>
