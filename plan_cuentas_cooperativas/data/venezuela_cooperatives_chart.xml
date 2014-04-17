@@ -678,6 +678,14 @@
       <field name="type">payable</field>
       <field name="user_type" ref="account_type_payable"/>
     </record>
+    <record model="account.account.template" id="account_cooperativa_212109">
+      <field name="code">2.1.2.109</field>
+      <field name="name">Documentos a Pagar a Socios</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">payable</field>
+      <field name="user_type" ref="account_type_payable"/>
+    </record>
     <record model="account.account.template" id="account_cooperativa_22">
       <field name="code">2.2</field>
       <field name="name">Pasivo a Largo Plazo</field>
