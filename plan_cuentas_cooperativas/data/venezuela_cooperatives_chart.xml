@@ -605,6 +605,30 @@
       <field name="type">view</field>
       <field name="user_type" ref="account_type_liability"/>
     </record>
+        <record model="account.account.template" id="account_cooperativa_2121">
+      <field name="code">2.1.2.1</field>
+      <field name="name">Retenciones  y Aportes por Pagar</field>
+      <field name="parent_id" ref="account_cooperativa_212"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">view</field>
+      <field name="user_type" ref="account_type_view"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_2121101">
+      <field name="code">2.1.2.1.101</field>
+      <field name="name">Retenciones I.V.S.S.</field>
+      <field name="parent_id" ref="account_cooperativa_2121"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
+        <record model="account.account.template" id="account_cooperativa_2121102">
+      <field name="code">2.1.2.1.102</field>
+      <field name="name">Retenciones F.A.O.V.</field>
+      <field name="parent_id" ref="account_cooperativa_2121"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_asset"/>
+    </record>
     <record model="account.account.template" id="account_cooperativa_212102">
       <field name="code">2.1.2.102</field>
       <field name="name">Documentos a pagar departamentos</field>
@@ -629,14 +653,7 @@
       <field name="type">payable</field>
       <field name="user_type" ref="account_type_payable"/>
     </record>
-    <record model="account.account.template" id="account_cooperativa_212105">
-      <field name="code">2.1.2.105</field>
-      <field name="name">Retenciones  y Aportes por Pagar</field>
-      <field name="parent_id" ref="account_cooperativa_212"/>
-      <field name="reconcile" eval="True"/>
-      <field name="type">payable</field>
-      <field name="user_type" ref="account_type_payable"/>
-    </record>
+
     <record model="account.account.template" id="account_cooperativa_212106">
       <field name="code">2.1.2.106</field>
       <field name="name">Gastos Acumulados por Pagar</field>
@@ -729,6 +746,14 @@
       <field name="code">2.4.1.101</field>
       <field name="name">Intereses Cobrados por Anticipado</field>
       <field name="parent_id" ref="account_cooperativa_241"/>
+      <field name="reconcile" eval="True"/>
+      <field name="type">other</field>
+      <field name="user_type" ref="account_type_liability"/>
+    </record>
+    <record model="account.account.template" id="account_cooperativa_241102">
+      <field name="code">2.4.1.102</field>
+      <field name="name">Anticipos Recibidos de Clientes</field>
+      <field name="parent_id" ref="account_cooperativa_24"/>
       <field name="reconcile" eval="True"/>
       <field name="type">other</field>
       <field name="user_type" ref="account_type_liability"/>
