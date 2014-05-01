@@ -2,8 +2,10 @@
 
 {
     'name' : "Venezuela - Cooperative Accounting",
-    'version' : '1.0',
-    'author' : ['Covetel R.S.'],
+    'version' : '1.2',
+    'author' : 'Covetel R.S.',
+    'website': 'http://www.covetel.com.ve',
+    'description': 'Chart Account for Cooperatives in Venezuela',
     'category' : 'Localization/Account Charts',
     'depends': [ 
         'account',
@@ -17,5 +19,4 @@
     ],
     'auto_install' : False,
     'installable' : True,
-
 }
